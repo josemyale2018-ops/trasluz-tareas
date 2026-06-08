@@ -227,6 +227,11 @@
                 <div class="tasks-card">
                     <h2>Mis Tareas Hoy</h2>
                     <div id="tasksList"></div>
+                    <div id="fotosSection" style="display: none; background: #fef3c7; padding: 15px; border-radius: 8px; margin-top: 20px; border: 2px solid #fbbf24;">
+                        <h3 style="color: #92400e; margin-bottom: 10px;">📸 Agregar Fotos (Problemas/Tareas Incompletas)</h3>
+                        <textarea id="fotosLinks" placeholder="Pega los links de Drive aquí (uno por línea)&#10;Ej: https://drive.google.com/..." style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #fbbf24; font-size: 13px; height: 100px; font-family: monospace;"></textarea>
+                        <p style="font-size: 12px; color: #92400e; margin-top: 8px;">💡 Tip: Sube fotos a Drive, haz clic derecho > "Obtener enlace" (acceso público)</p>
+                    </div>
                     <button class="submit-btn" onclick="submitTasks()">✓ Enviar Tareas Completadas</button>
                 </div>
 
@@ -315,6 +320,14 @@
             document.getElementById('userName').textContent = info.nombre;
             document.getElementById('userTurno').textContent = `Turno: ${info.turno}`;
             
+            // Mostrar sección de fotos solo para supervisores y dueño
+            const supervisores = ['jose', 'andriek', 'nicolas'];
+            if (supervisores.includes(usuario)) {
+                document.getElementById('fotosSection').style.display = 'block';
+            } else {
+                document.getElementById('fotosSection').style.display = 'none';
+            }
+            
             renderTasks();
         }
 
@@ -362,12 +375,20 @@
             const info = tareas[usuarioActual];
             const completadas = tareasCompletadas.map(i => info.tareas[i]);
             
+            // Obtener links de fotos (solo si el usuario es supervisor)
+            let fotosLinks = '';
+            const supervisores = ['jose', 'andriek', 'nicolas'];
+            if (supervisores.includes(usuarioActual)) {
+                fotosLinks = document.getElementById('fotosLinks').value.trim();
+            }
+            
             const datos = {
                 camarero: info.nombre,
                 turno: info.turno,
                 tareas: info.tareas,
                 completadas: completadas,
-                porcentaje: Math.round((tareasCompletadas.length / info.tareas.length) * 100)
+                porcentaje: Math.round((tareasCompletadas.length / info.tareas.length) * 100),
+                fotos: fotosLinks
             };
             
             const urlAppsScript = "https://script.google.com/macros/s/AKfycbyARJs3JNjpsDUT32PAdZ2XxC44O3hCYFIWBwNHrAgu9RQBElSFu_h404nu7QhPWBJx/exec";
@@ -379,7 +400,8 @@
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    alert(`✓ Tareas guardadas y notificadas a supervisores!\n\n${completadas.length}/${info.tareas.length} completadas\n\nEmails enviados a:\n• José Miguel\n• Andriek\n• Nicolás`);
+                    const fotosMsg = fotosLinks ? '\n\n📸 Fotos guardadas' : '';
+                    alert(`✓ Tareas guardadas y notificadas a supervisores!\n\n${completadas.length}/${info.tareas.length} completadas\n\nEmails enviados a:\n• José Miguel\n• Andriek\n• Nicolás${fotosMsg}`);
                     logout();
                 } else {
                     alert(`⚠ Error: ${result.error}`);
