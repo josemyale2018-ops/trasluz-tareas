@@ -285,7 +285,7 @@
                     </div>
 
                     <!-- TAB: INCIDENCIAS -->
-                    <div id="tab-incidencias" class="tab-content" style="display: none;">
+                    <div id="tab-incidencias" class="tab-content">
                         <h2>Registrar Incidencia</h2>
                         <form onsubmit="submitIncidencia(event)">
                             <div class="form-group">
@@ -412,8 +412,18 @@
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             
             // Mostrar tab seleccionado
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
+            const tabElement = document.getElementById('tab-' + tabName);
+            if (tabElement) {
+                tabElement.style.display = 'block';
+                tabElement.classList.add('active');
+            }
+            
+            // Marcar botón como activo
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.textContent.includes(tabName === 'tareas' ? 'Tareas' : 'Incidencias')) {
+                    btn.classList.add('active');
+                }
+            });
         }
 
         function poblarTareasIncidencia(usuario) {
