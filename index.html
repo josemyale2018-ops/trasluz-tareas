@@ -1084,13 +1084,37 @@
         function toggleTask(key) {
             tareasCompletadas[key] = !tareasCompletadas[key];
             
+            // Buscar el elemento task-item que corresponde a este click
             const items = document.querySelectorAll('.task-item');
-            let count = 0;
             items.forEach((item, idx) => {
-                const taskKey = `almuerzo_limpieza_${idx}`;
-                if (tareasCompletadas[taskKey]) {
+                // Recalcular cuál es el índice real del elemento clickeado
+                let foundIndex = 0;
+                let taskItems = document.querySelectorAll('.task-item');
+                for (let i = 0; i < taskItems.length; i++) {
+                    if (taskItems[i] === item) {
+                        foundIndex = i;
+                        break;
+                    }
+                }
+            });
+            
+            // Actualizar visual de TODOS los task-items
+            const allTasks = document.querySelectorAll('.task-item');
+            allTasks.forEach((item, idx) => {
+                // Buscar si este elemento está marcado
+                let isCompleted = false;
+                for (const taskKey in tareasCompletadas) {
+                    if (tareasCompletadas[taskKey]) {
+                        const taskIndex = parseInt(taskKey.split('_').pop());
+                        if (taskIndex === idx) {
+                            isCompleted = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (isCompleted) {
                     item.classList.add('completed');
-                    count++;
                 } else {
                     item.classList.remove('completed');
                 }
