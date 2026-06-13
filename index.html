@@ -536,6 +536,9 @@
     </div>
 
     <script>
+        // ===== APPS SCRIPT URL =====
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbysxjPa9Gv8nLQueFQM4_JgsKoIScqltgcAd7RAQIP1CRK5wm7g3WVM5Y_O7B19CVom/exec";
+
         const credenciales = {
             andriek: "barra.2026",
             jose: "sala.1914",
@@ -1072,11 +1075,65 @@
             const turnosTexto = Object.keys(turnosDeHoy).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
             const puestosTexto = Object.entries(puestosPorTurno).map(([t, p]) => `${t}: ${p === 'barra_sala' ? 'Barra y Sala' : p}`).join(' | ');
             
-            alert(`✓ TAREAS ENVIADAS\n\n${info.nombre}\nTurnos: ${turnosTexto}\n${puestosTexto}\nTareas de limpieza completadas: ${completedCount}\n\nEmail enviado a: josemyale2018@gmail.com`);
+            // Contar total de tareas de limpieza
+            const taskItems = document.querySelectorAll('.task-item');
+            const totalLimpieza = taskItems.length;
+            
+            const datos = {
+                accion: "enviarTareas",
+                camarero: info.nombre,
+                turnos: turnosTexto,
+                puestos: puestosTexto,
+                completadas: completedCount,
+                total: totalLimpieza,
+                notas: ""
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(`✓ TAREAS ENVIADAS\n\n${info.nombre}\nTurnos: ${turnosTexto}\n${puestosTexto}\nTareas de limpieza completadas: ${completedCount}/${totalLimpieza}\n\nEmail enviado a: josemyale2018@gmail.com`);
+                } else {
+                    alert(`❌ Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                alert(`❌ Error al enviar: ${error}`);
+                console.log(error);
+            });
         }
 
         function marcarComoRevisado() {
-            alert(`✓ Tareas de ${camareros[personaSeleccionada].nombre} marcadas como revisadas\n\nEmail enviado a: josemyale2018@gmail.com`);
+            const info = camareros[usuarioActual];
+            const turnosTexto = Object.keys(turnosDeHoy).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+            
+            const datos = {
+                accion: "revisarTareas",
+                supervisor: info.nombre,
+                camarero: camareros[personaSeleccionada].nombre,
+                turnos: turnosTexto
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(`✓ Tareas de ${camareros[personaSeleccionada].nombre} marcadas como revisadas\n\nEmail enviado a: josemyale2018@gmail.com`);
+                } else {
+                    alert(`❌ Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                alert(`❌ Error al revisar: ${error}`);
+                console.log(error);
+            });
         }
 
         function submitIncidencia(event) {
@@ -1084,12 +1141,35 @@
             const camarero = document.getElementById('incidenciaCamarero').value;
             const turno = document.getElementById('incidenciaTurno').value;
             const desc = document.getElementById('incidenciaDesc').value;
+            const supervisor = camareros[usuarioActual].nombre;
             
-            alert(`✓ INCIDENCIA REGISTRADA\n\n${camarero}\nTurno: ${turno}\nProblema: ${desc}\n\nEmail enviado a: josemyale2018@gmail.com`);
-            
-            document.getElementById('incidenciaDesc').value = '';
-            document.getElementById('incidenciaCamarero').value = '';
-            document.getElementById('incidenciaTurno').value = '';
+            const datos = {
+                accion: "registrarIncidencia",
+                supervisor: supervisor,
+                camarero: camareros[camarero].nombre,
+                turno: turno,
+                descripcion: desc
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(`✓ INCIDENCIA REGISTRADA\n\n${camareros[camarero].nombre}\nTurno: ${turno}\nProblema: ${desc}\n\nEmail enviado a: josemyale2018@gmail.com`);
+                    document.getElementById('incidenciaDesc').value = '';
+                    document.getElementById('incidenciaCamarero').value = '';
+                    document.getElementById('incidenciaTurno').value = '';
+                } else {
+                    alert(`❌ Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                alert(`❌ Error al registrar: ${error}`);
+                console.log(error);
+            });
         }
 
         function poblarSelectPersonas() {
