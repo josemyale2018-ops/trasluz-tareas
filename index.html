@@ -85,6 +85,74 @@
         .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(37,99,235,0.3); }
         .error { color: #dc2626; font-size: 12px; display: none; }
         
+        .fecha-screen { display: none; justify-content: center; align-items: center; min-height: 100vh; }
+        .fecha-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .fecha-title {
+            font-size: 24px;
+            color: #1e40af;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .fecha-subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .fecha-input-group {
+            margin-bottom: 25px;
+        }
+        .fecha-input-group label {
+            display: block;
+            color: #1f2937;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .fecha-input-group input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #93c5fd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #1f2937;
+            background: #eff6ff;
+        }
+        .fecha-input-group input[type="date"]:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .fecha-info {
+            background: #dbeafe;
+            border: 2px solid #0284c7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #0c4a6e;
+            font-weight: 600;
+        }
+        .btn-continue {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-continue:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
+        
         .selector-screen { display: none; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .selector-card {
             background: white;
@@ -142,8 +210,13 @@
             border-color: #1e40af;
             color: white;
         }
+        .selector-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
         .btn-continue {
-            width: 100%;
+            flex: 1;
             padding: 14px;
             background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
             color: white;
@@ -151,11 +224,21 @@
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 20px;
             font-size: 14px;
         }
-        .btn-continue:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
-        .btn-continue:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-continue:hover { transform: translateY(-2px); }
+        .btn-back {
+            flex: 1;
+            padding: 14px;
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-back:hover { background: #d1d5db; }
         
         .app-screen { display: none; }
         .header {
@@ -347,10 +430,6 @@
             display: block;
             cursor: pointer;
         }
-        .standard-image img:hover {
-            transform: scale(1.02);
-            transition: 0.3s;
-        }
         
         .supervisor-controls {
             background: #fef3c7;
@@ -385,10 +464,7 @@
         }
         .revision-btn:hover { background: #ea580c; }
         
-        .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
-        
         @media (max-width: 768px) {
-            .main-grid { grid-template-columns: 1fr; }
             .header { flex-direction: column; }
             .btn-group { grid-template-columns: 1fr 1fr; }
         }
@@ -418,12 +494,35 @@
         </div>
     </div>
 
+    <!-- FECHA SCREEN -->
+    <div id="fechaScreen" class="fecha-screen">
+        <div class="fecha-card">
+            <div class="fecha-title">📅 Selecciona una Fecha</div>
+            <div class="fecha-subtitle">Visualiza los turnos y tareas de cualquier día de la semana</div>
+            
+            <div class="fecha-input-group">
+                <label>Fecha a revisar:</label>
+                <input type="date" id="fechaInput" min="2026-06-13">
+            </div>
+
+            <div class="fecha-info" id="fechaInfo"></div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-continue" onclick="continuarConFecha()" style="flex: 1;">Continuar →</button>
+                <button class="btn-back" onclick="volverAlLogin()" style="flex: 1;">Volver</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SELECTOR SCREEN -->
     <div id="selectorScreen" class="selector-screen">
         <div class="selector-card">
             <div class="selector-title">📋 Selecciona tu área por turno</div>
             <div id="selectorsContainer"></div>
-            <button class="btn-continue" id="continueBtn" onclick="goToApp()" disabled>Continuar →</button>
+            <div class="selector-footer">
+                <button class="btn-back" onclick="volverAFecha()">← Volver</button>
+                <button class="btn-continue" id="continueBtn" onclick="goToApp()" disabled>Continuar →</button>
+            </div>
         </div>
     </div>
 
@@ -434,11 +533,12 @@
                 <div class="header-left">
                     <div>
                         <h1 id="userName">Usuario</h1>
-                        <p id="userInfo">Turnos de hoy</p>
+                        <p id="userInfo">Turnos para el día seleccionado</p>
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="change-btn" onclick="changePuesto()">🔄 Cambiar</button>
+                    <button class="change-btn" onclick="changeFecha()">📅 Cambiar Fecha</button>
+                    <button class="change-btn" onclick="changePuesto()">🔄 Cambiar Puesto</button>
                     <button class="logout-btn" onclick="logout()">Salir</button>
                 </div>
             </div>
@@ -482,7 +582,7 @@
             <!-- TAREAS -->
             <div id="tab-tareas" class="tab-content">
                 <div class="card">
-                    <h2 id="tituloTareas">Mis Tareas de Hoy</h2>
+                    <h2 id="tituloTareas">Mis Tareas</h2>
                     <div id="tasksList"></div>
                     <button class="submit-btn" onclick="submitTasks()">✓ Enviar Tareas</button>
                 </div>
@@ -557,275 +657,168 @@
             nicolas: { nombre: 'Nicolás', rol: 'Dueño', isSupervisor: true }
         };
 
-        // HORARIO: 15-21 de Junio 2026
+        // HORARIO: Semana del 13 al 21 de junio
         const HORARIOS = {
-            15: { // Lunes
-                desayuno: { andriek: 'barra_sala', jose: null },
-                almuerzo: { andriek: 'barra', cristian: 'sala' }
-            },
-            16: { // Martes
-                desayuno: { jose: 'barra_sala' },
-                almuerzo: { jose: 'barra', carolina: 'sala' }
-            },
-            17: { // Miércoles
-                desayuno: { jose: 'barra_sala' },
-                almuerzo: { jose: 'barra', carolina: 'sala' },
-                merienda: { andriek: 'barra_sala' },
-                cena: { andriek: 'barra_sala' }
-            },
-            18: { // Jueves
-                desayuno: { jose: 'barra_sala' },
-                almuerzo: { jose: 'barra', cristian: 'sala' },
-                merienda: { andriek: 'barra_sala' },
-                cena: { andriek: 'barra_sala' }
-            },
-            19: { // Viernes
+            13: { // Viernes
                 desayuno: { jose: 'barra_sala' },
                 almuerzo: { jose: 'barra', cristian: 'sala', carolina: 'sala' },
                 merienda: { andriek: 'barra_sala' },
                 cena: { andriek: 'barra_sala' }
             },
-            20: { // Sábado
+            14: { // Sábado
                 almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala' },
                 merienda: { andriek: 'barra_sala' },
                 cena: { jose: 'barra_sala' }
             },
-            21: { // Domingo
+            15: { // Domingo
                 almuerzo: { andriek: 'barra', cristian: 'sala' }
+            },
+            16: { // Lunes
+                desayuno: { andriek: 'barra_sala' },
+                almuerzo: { andriek: 'barra', cristian: 'sala' }
+            },
+            17: { // Martes
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', carolina: 'sala' }
+            },
+            18: { // Miércoles
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', carolina: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { andriek: 'barra_sala' }
+            },
+            19: { // Jueves
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', cristian: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { andriek: 'barra_sala' }
+            },
+            20: { // Viernes
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', cristian: 'sala', carolina: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { andriek: 'barra_sala' }
+            },
+            21: { // Sábado
+                almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { jose: 'barra_sala' }
             }
         };
 
-        // TAREAS
+        // TAREAS (igual que antes)
         const TAREAS_LEYENDA = {
             desayuno_antes: [
-                'Poner la música',
-                'Encender ventiladores',
-                'Bajar pan y verificar insumos',
-                'Sacar la terraza',
-                'Colocar papeleras',
-                'Sacar carteles',
-                'Colocar cartas de desayunos',
-                'Colocar servilleteros',
-                'Colocar botellas de adorno',
-                'Verificar mesas limpias y secas',
-                'Encender freidora',
-                'Triturar tomate',
-                'Preparar zumo de naranja',
-                'Colocar platos en pase',
-                'Colocar servilletas de desayuno',
-                'Encender lavavajillas',
-                'Sacar jarras (leche, sin lactosa, chocolate)',
-                'Revisar tazas/vasos limpios',
-                'Verificar iluminación',
-                'Revisar baños limpios'
+                'Poner la música', 'Encender ventiladores', 'Bajar pan y verificar insumos',
+                'Sacar la terraza', 'Colocar papeleras', 'Sacar carteles',
+                'Colocar cartas de desayunos', 'Colocar servilleteros', 'Colocar botellas de adorno',
+                'Verificar mesas limpias y secas', 'Encender freidora', 'Triturar tomate',
+                'Preparar zumo de naranja', 'Colocar platos en pase', 'Colocar servilletas de desayuno',
+                'Encender lavavajillas', 'Sacar jarras', 'Revisar tazas/vasos limpios',
+                'Verificar iluminación', 'Revisar baños limpios'
             ],
             desayuno_limpieza: [
-                'Limpiar mesas sala y terraza',
-                'Recargar servilletas',
-                'Repasar cafetera',
-                'Vaciar recipiente de café',
-                'Limpiar salida de agua cafetera',
-                'Limpiar y secar jarras',
-                'Limpiar tazas, vasos, platillos, cucharillas',
-                'Repasar papeleras de baños',
-                'Limpiar tabla, cuchillos, trituradora',
-                'Limpiar electrodomésticos usados',
-                'Apilar platos para cocina'
+                'Limpiar mesas sala y terraza', 'Recargar servilletas', 'Repasar cafetera',
+                'Vaciar recipiente de café', 'Limpiar salida de agua cafetera', 'Limpiar y secar jarras',
+                'Limpiar tazas, vasos, platillos, cucharillas', 'Repasar papeleras de baños',
+                'Limpiar tabla, cuchillos, trituradora', 'Limpiar electrodomésticos usados', 'Apilar platos para cocina'
             ],
             almuerzo_lunes_antes_sala: [
-                'Dar vuelta cartel desayunos',
-                'Quitar cartas desayuno',
-                'Colocar cartas mediodía (QR, Vinos, Paellas)',
-                'Revisar y recargar cámaras'
+                'Dar vuelta cartel desayunos', 'Quitar cartas desayuno',
+                'Colocar cartas mediodía (QR, Vinos, Paellas)', 'Revisar y recargar cámaras'
             ],
             almuerzo_lunes_despues_sala: [
-                'Cambiar cartas mediodía por meriendas',
-                'Dar vuelta cartel',
-                'Abrir sombrillas',
-                'Poner a cargar lámparas'
+                'Cambiar cartas mediodía por meriendas', 'Dar vuelta cartel', 'Abrir sombrillas', 'Poner a cargar lámparas'
             ],
             almuerzo_lunes_limpieza_sala: [
-                'Limpiar mesas sala y terraza',
-                'Reponer servilletas',
-                'Limpiar baños',
-                'Limpiar espejos baños',
-                'Barrer suelo sala baja y alta',
-                'Limpiar sillas terraza',
-                'Barrer terraza',
-                'Cambiar papeleras baños'
+                'Limpiar mesas sala y terraza', 'Reponer servilletas', 'Limpiar baños',
+                'Limpiar espejos baños', 'Barrer suelo sala baja y alta', 'Limpiar sillas terraza',
+                'Barrer terraza', 'Cambiar papeleras baños'
             ],
             almuerzo_sabado_antes_sala: [
-                'Poner música',
-                'Encender ventiladores',
-                'Sacar terraza',
-                'Colocar papeleras',
-                'Sacar carteles',
-                'Colocar cartas mediodía (QR, Vinos, Paellas)',
-                'Colocar servilleteros',
-                'Colocar botellas de adorno',
-                'Verificar mesas limpias y secas'
+                'Poner música', 'Encender ventiladores', 'Sacar terraza', 'Colocar papeleras',
+                'Sacar carteles', 'Colocar cartas mediodía (QR, Vinos, Paellas)',
+                'Colocar servilleteros', 'Colocar botellas de adorno', 'Verificar mesas limpias y secas'
             ],
             almuerzo_sabado_despues_sala: [
-                'Cambiar cartas mediodía por meriendas',
-                'Dar vuelta cartel',
-                'Abrir sombrillas',
-                'Poner a cargar lámparas'
+                'Cambiar cartas mediodía por meriendas', 'Dar vuelta cartel', 'Abrir sombrillas', 'Poner a cargar lámparas'
             ],
             almuerzo_sabado_limpieza_sala: [
-                'Limpiar mesas sala y terraza',
-                'Reponer servilletas',
-                'Limpiar baños',
-                'Limpiar espejos baños',
-                'Barrer suelo sala baja y alta',
-                'Limpiar sillas terraza',
-                'Barrer terraza',
-                'Cambiar papeleras baños'
+                'Limpiar mesas sala y terraza', 'Reponer servilletas', 'Limpiar baños',
+                'Limpiar espejos baños', 'Barrer suelo sala baja y alta', 'Limpiar sillas terraza',
+                'Barrer terraza', 'Cambiar papeleras baños'
             ],
             almuerzo_domingo_antes_sala: [
-                'Poner música',
-                'Encender ventiladores',
-                'Sacar terraza',
-                'Colocar papeleras',
-                'Sacar carteles',
-                'Colocar cartas mediodía (QR, Vinos, Paellas)',
-                'Colocar servilleteros',
-                'Colocar botellas de adorno',
-                'Verificar mesas limpias y secas'
+                'Poner música', 'Encender ventiladores', 'Sacar terraza', 'Colocar papeleras',
+                'Sacar carteles', 'Colocar cartas mediodía (QR, Vinos, Paellas)',
+                'Colocar servilleteros', 'Colocar botellas de adorno', 'Verificar mesas limpias y secas'
             ],
             almuerzo_domingo_cierre_sala: [
-                'Recoger terraza',
-                'Guardar carteles',
-                'Guardar sombrillas',
-                'Poner a cargar TPVs',
-                'Apagar luz terraza',
-                'Apagar música y ventiladores'
+                'Recoger terraza', 'Guardar carteles', 'Guardar sombrillas', 'Poner a cargar TPVs',
+                'Apagar luz terraza', 'Apagar música y ventiladores'
             ],
             almuerzo_domingo_limpieza_sala: [
-                'Repasar suelos sala baja y alta',
-                'Limpiar baños',
-                'Tirar basura (sala y baños)',
-                'Limpiar mesas sala y terraza',
-                'Reponer servilleteros',
-                'Revisar suelos limpios para siguiente día'
+                'Repasar suelos sala baja y alta', 'Limpiar baños', 'Tirar basura (sala y baños)',
+                'Limpiar mesas sala y terraza', 'Reponer servilleteros', 'Revisar suelos limpios para siguiente día'
             ],
             almuerzo_barra_antes: [
-                'Verificar copas y cubiertos listos',
-                'Preparar pan',
-                'Verificar combos aceite y vinagre llenos',
-                'Cambiar agua lavavajillas',
-                'Preparar sangría',
-                'Verificar abastecimiento barra',
-                'Indicar lo que falta',
-                'Verificar neveras abastecidas'
+                'Verificar copas y cubiertos listos', 'Preparar pan', 'Verificar combos aceite y vinagre llenos',
+                'Cambiar agua lavavajillas', 'Preparar sangría', 'Verificar abastecimiento barra',
+                'Indicar lo que falta', 'Verificar neveras abastecidas'
             ],
             almuerzo_barra_despues: [
-                'Recargar cámaras',
-                'Cambiar agua lavavajillas',
-                'Abastecer para meriendas'
+                'Recargar cámaras', 'Cambiar agua lavavajillas', 'Abastecer para meriendas'
             ],
             almuerzo_barra_limpieza: [
-                'Limpiar cubiertos',
-                'Repasar cafetera',
-                'Limpiar tablas y cuchillos',
-                'Sacar basura sala',
-                'Desinfectar barra',
-                'Limpiar bandejas',
-                'Reponer insumos baños',
-                'Regar plantas',
-                'Barrer y fregar suelo barra'
+                'Limpiar cubiertos', 'Repasar cafetera', 'Limpiar tablas y cuchillos',
+                'Sacar basura sala', 'Desinfectar barra', 'Limpiar bandejas',
+                'Reponer insumos baños', 'Regar plantas', 'Barrer y fregar suelo barra'
             ],
             merienda_barra_antes: [
-                'Verificar abastecimiento',
-                'Verificar cámaras bebidas y postres',
-                'Asegurar pan y croissant',
-                'Asegurar jamón, york y queso',
-                'Asegurar naranjas',
-                'Asegurar tartas y bizcocho limón'
+                'Verificar abastecimiento', 'Verificar cámaras bebidas y postres',
+                'Asegurar pan y croissant', 'Asegurar jamón, york y queso',
+                'Asegurar naranjas', 'Asegurar tartas y bizcocho limón'
             ],
             merienda_barra_despues: [
-                'Virar cartel meriendas por cenas',
-                'Colocar cartas sugerencias',
-                'Sacar lámparas',
-                'Recoger sombrillas',
-                'Encender luz terraza',
-                'Recargar cámaras',
-                'Preparar cubiertos para cena'
+                'Virar cartel meriendas por cenas', 'Colocar cartas sugerencias', 'Sacar lámparas',
+                'Recoger sombrillas', 'Encender luz terraza', 'Recargar cámaras', 'Preparar cubiertos para cena'
             ],
             merienda_barra_limpieza: [
-                'Limpiar tablas y cuchillos',
-                'Desinfectar barra',
-                'Limpiar bandejas',
-                'Fregar suelos sala baja y alta',
-                'Repasar baños',
-                'Tirar basura si hay mucha',
-                'Repasar mesas y terraza',
-                'Repasar servilleteros',
-                'Barrer terraza'
+                'Limpiar tablas y cuchillos', 'Desinfectar barra', 'Limpiar bandejas',
+                'Fregar suelos sala baja y alta', 'Repasar baños', 'Tirar basura si hay mucha',
+                'Repasar mesas y terraza', 'Repasar servilleteros', 'Barrer terraza'
             ],
             merienda_sala_antes: [
-                'Verificar abastecimiento',
-                'Pan y croissant',
-                'Jamón, york y queso',
-                'Naranjas',
-                'Tartas y bizcocho'
+                'Verificar abastecimiento', 'Pan y croissant', 'Jamón, york y queso', 'Naranjas', 'Tartas y bizcocho'
             ],
             merienda_sala_despues: [
-                'Virar cartel',
-                'Colocar cartas sugerencias',
-                'Sacar lámparas',
-                'Recoger sombrillas',
-                'Encender luz terraza',
-                'Preparar cubiertos para cena'
+                'Virar cartel', 'Colocar cartas sugerencias', 'Sacar lámparas',
+                'Recoger sombrillas', 'Encender luz terraza', 'Preparar cubiertos para cena'
             ],
             merienda_sala_limpieza: [
-                'Limpiar mesas',
-                'Reponer servilletas',
-                'Limpiar baños',
-                'Limpiar suelos',
-                'Terraza',
-                'Plantas',
-                'Papeleras'
+                'Limpiar mesas', 'Reponer servilletas', 'Limpiar baños', 'Limpiar suelos', 'Terraza', 'Plantas', 'Papeleras'
             ],
             cena_antes: [
-                'Verificar todo listo para servicio',
-                'Verificar abastecimiento cámaras'
+                'Verificar todo listo para servicio', 'Verificar abastecimiento cámaras'
             ],
             cena_cierre: [
-                'Recoger terraza',
-                'Guardar carteles',
-                'Guardar sombrillas',
-                'Poner a cargar TPVs',
-                'Apagar luz terraza',
-                'Apagar música y ventiladores',
-                'Preparar cubiertos almuerzo siguiente',
-                'Bajar campana cocina',
-                'Verificar cocina apagada'
+                'Recoger terraza', 'Guardar carteles', 'Guardar sombrillas', 'Poner a cargar TPVs',
+                'Apagar luz terraza', 'Apagar música y ventiladores',
+                'Preparar cubiertos almuerzo siguiente', 'Bajar campana cocina', 'Verificar cocina apagada'
             ],
             cena_barra_limpieza: [
-                'Limpiar copas, vasos, cubiertos',
-                'Cafetera profunda',
-                'Tablas y cuchillos',
-                'Basura',
-                'Desinfectar barra',
-                'Bandejas',
-                'Suelos',
-                'Baños',
-                'Mesas',
-                'Servilleteros',
-                'Tirador cerveza y agua gas',
-                'Basura vidrios'
+                'Limpiar copas, vasos, cubiertos', 'Cafetera profunda', 'Tablas y cuchillos', 'Basura',
+                'Desinfectar barra', 'Bandejas', 'Suelos', 'Baños', 'Mesas', 'Servilleteros',
+                'Tirador cerveza y agua gas', 'Basura vidrios'
             ],
             cena_sala_limpieza: [
-                'Suelos sala baja y alta',
-                'Limpiar baños',
-                'Tirar basura',
-                'Limpiar mesas sala y terraza',
-                'Reponer servilleteros',
-                'Revisar suelos limpios para siguiente día'
+                'Suelos sala baja y alta', 'Limpiar baños', 'Tirar basura', 'Limpiar mesas sala y terraza',
+                'Reponer servilleteros', 'Revisar suelos limpios para siguiente día'
             ]
         };
 
         let usuarioActual = null;
+        let fechaSeleccionada = null;
         let turnosDeHoy = {};
         let puestosPorTurno = {};
         let tareasCompletadas = {};
@@ -839,7 +832,7 @@
 
             if (credenciales[username] && credenciales[username] === password) {
                 usuarioActual = username;
-                detectarTurnosYMostrarSelector();
+                mostrarFechaSelector();
                 errorDiv.style.display = 'none';
             } else {
                 errorDiv.textContent = '❌ Datos incorrectos';
@@ -847,19 +840,75 @@
             }
         }
 
-        function detectarTurnosYMostrarSelector() {
+        function mostrarFechaSelector() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('fechaScreen').style.display = 'flex';
+            
+            // Establecer fecha por defecto a hoy
             const hoy = new Date();
-            const dia = hoy.getDate();
-            const horarioHoy = HORARIOS[dia] || {};
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+            const año = hoy.getFullYear();
+            document.getElementById('fechaInput').value = `${año}-${mes}-${dia}`;
+            
+            mostrarInfoFecha();
+        }
 
+        function mostrarInfoFecha() {
+            const inputFecha = document.getElementById('fechaInput').value;
+            if (!inputFecha) return;
+            
+            const fecha = new Date(inputFecha + 'T00:00:00');
+            const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            const diaSemana = diasSemana[fecha.getDay()];
+            const fechaFormato = fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const dia = fecha.getDate();
+            const horarioInfo = HORARIOS[dia];
+            
+            if (horarioInfo) {
+                const turnos = Object.keys(horarioInfo).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+                document.getElementById('fechaInfo').innerHTML = `<strong>${diaSemana}, ${fechaFormato}</strong><br>Turnos: ${turnos}`;
+            } else {
+                document.getElementById('fechaInfo').innerHTML = `<strong>${diaSemana}, ${fechaFormato}</strong><br>No hay turnos registrados`;
+            }
+        }
+
+        function continuarConFecha() {
+            const inputFecha = document.getElementById('fechaInput').value;
+            if (!inputFecha) {
+                alert('Por favor selecciona una fecha');
+                return;
+            }
+            
+            const fecha = new Date(inputFecha + 'T00:00:00');
+            fechaSeleccionada = fecha.getDate();
+            
+            const horarioInfo = HORARIOS[fechaSeleccionada];
+            if (!horarioInfo || Object.keys(horarioInfo).length === 0) {
+                alert('No hay turnos para esta fecha');
+                return;
+            }
+            
+            mostrarSelectorPuesto();
+        }
+
+        function mostrarSelectorPuesto() {
+            const horarioInfo = HORARIOS[fechaSeleccionada] || {};
             turnosDeHoy = {};
-            for (const turno in horarioHoy) {
-                if (horarioHoy[turno][usuarioActual]) {
+            
+            for (const turno in horarioInfo) {
+                if (horarioInfo[turno][usuarioActual]) {
                     turnosDeHoy[turno] = true;
                 }
             }
-
-            document.getElementById('loginScreen').style.display = 'none';
+            
+            if (Object.keys(turnosDeHoy).length === 0) {
+                alert('No tienes turnos asignados para esta fecha');
+                return;
+            }
+            
+            document.getElementById('fechaScreen').style.display = 'none';
             document.getElementById('selectorScreen').style.display = 'flex';
 
             const container = document.getElementById('selectorsContainer');
@@ -912,8 +961,10 @@
             const info = camareros[usuarioActual];
             document.getElementById('userName').textContent = info.nombre;
             
+            const fecha = new Date(2026, 5, fechaSeleccionada);
+            const fechaFormato = fecha.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             const turnosTexto = Object.keys(turnosDeHoy).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(' + ');
-            document.getElementById('userInfo').textContent = `Turnos: ${turnosTexto}`;
+            document.getElementById('userInfo').textContent = `${fechaFormato} | Turnos: ${turnosTexto}`;
 
             if (info.isSupervisor) {
                 document.getElementById('tabRevisar').style.display = 'block';
@@ -931,15 +982,6 @@
             event.target.classList.add('active');
         }
 
-        function getLeyenda(turno, seccion, puesto) {
-            const key = `${turno}_${seccion}${puesto === 'barra_sala' ? '_barra_sala' : puesto === 'barra' ? '_barra' : '_sala'}`;
-            
-            // Intenta diferentes combinaciones
-            if (TAREAS_LEYENDA[key]) return TAREAS_LEYENDA[key];
-            if (TAREAS_LEYENDA[`${turno}_${seccion}`]) return TAREAS_LEYENDA[`${turno}_${seccion}`];
-            return [];
-        }
-
         function renderTasks() {
             const listDiv = document.getElementById('tasksList');
             listDiv.innerHTML = '';
@@ -951,14 +993,12 @@
 
                 const puesto = puestosPorTurno[turno];
                 
-                // Header
                 const header = document.createElement('div');
                 header.className = 'turno-header';
                 const puestoTexto = puesto === 'barra_sala' ? 'Barra y Sala' : puesto === 'barra' ? 'Barra' : 'Sala';
                 header.textContent = `${turno.charAt(0).toUpperCase() + turno.slice(1)} - ${puestoTexto}`;
                 listDiv.appendChild(header);
 
-                // LEYENDAS
                 let leyendaAntes = [];
                 let leyendaDespues = [];
                 let leyendaLimpieza = [];
@@ -967,11 +1007,11 @@
                     leyendaAntes = TAREAS_LEYENDA.desayuno_antes;
                     leyendaLimpieza = TAREAS_LEYENDA.desayuno_limpieza;
                 } else if (turno === 'almuerzo') {
-                    if (new Date().getDate() === 21) { // Domingo
+                    if (fechaSeleccionada === 15 || fechaSeleccionada === 21) { // Domingo
                         leyendaAntes = TAREAS_LEYENDA.almuerzo_domingo_antes_sala;
                         leyendaDespues = TAREAS_LEYENDA.almuerzo_domingo_cierre_sala;
                         leyendaLimpieza = TAREAS_LEYENDA.almuerzo_domingo_limpieza_sala;
-                    } else if (new Date().getDay() === 6) { // Sábado
+                    } else if (fechaSeleccionada === 14 || fechaSeleccionada === 21) { // Sábado
                         leyendaAntes = TAREAS_LEYENDA.almuerzo_sabado_antes_sala;
                         leyendaDespues = TAREAS_LEYENDA.almuerzo_sabado_despues_sala;
                         leyendaLimpieza = TAREAS_LEYENDA.almuerzo_sabado_limpieza_sala;
@@ -1006,7 +1046,6 @@
                     }
                 }
 
-                // Antes
                 if (leyendaAntes.length > 0) {
                     const leyenda = document.createElement('div');
                     leyenda.className = 'leyenda-box';
@@ -1019,7 +1058,6 @@
                     listDiv.appendChild(leyenda);
                 }
 
-                // Limpieza
                 if (leyendaLimpieza.length > 0) {
                     const seccion = document.createElement('div');
                     seccion.className = 'section-box';
@@ -1040,7 +1078,6 @@
                     listDiv.appendChild(seccion);
                 }
 
-                // Después
                 if (leyendaDespues.length > 0) {
                     const leyenda = document.createElement('div');
                     leyenda.className = 'leyenda-box';
@@ -1058,13 +1095,15 @@
         function toggleTask(key) {
             tareasCompletadas[key] = !tareasCompletadas[key];
             
-            // Actualizar visualmente
             const items = document.querySelectorAll('.task-item');
-            items.forEach(item => {
-                const task = item.querySelector('.task-title').textContent;
-                const hasKey = Object.keys(tareasCompletadas).some(k => tareasCompletadas[k] && item.textContent.includes(task));
-                if (hasKey && tareasCompletadas[Object.keys(tareasCompletadas).find(k => tareasCompletadas[k] && item.textContent.includes(task))]) {
+            let count = 0;
+            items.forEach((item, idx) => {
+                const taskKey = `almuerzo_limpieza_${idx}`;
+                if (tareasCompletadas[taskKey]) {
                     item.classList.add('completed');
+                    count++;
+                } else {
+                    item.classList.remove('completed');
                 }
             });
         }
@@ -1075,7 +1114,6 @@
             const turnosTexto = Object.keys(turnosDeHoy).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
             const puestosTexto = Object.entries(puestosPorTurno).map(([t, p]) => `${t}: ${p === 'barra_sala' ? 'Barra y Sala' : p}`).join(' | ');
             
-            // Contar total de tareas de limpieza
             const taskItems = document.querySelectorAll('.task-item');
             const totalLimpieza = taskItems.length;
             
@@ -1198,18 +1236,14 @@
             const personaKey = document.getElementById('selectPersona').value;
             if (!personaKey) return;
             personaSeleccionada = personaKey;
-
-            const div = document.getElementById('tareasPersonaDiv');
-            div.innerHTML = '';
-
-            const info = camareros[personaKey];
-            const texto = document.createElement('p');
-            texto.style.color = '#6b7280';
-            texto.style.fontSize = '13px';
-            texto.textContent = `Tareas de ${info.nombre} (según el horario de hoy)`;
-            div.appendChild(texto);
-
             document.getElementById('revisionBtn').style.display = 'block';
+        }
+
+        function changeFecha() {
+            puestosPorTurno = {};
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('fechaScreen').style.display = 'flex';
+            mostrarInfoFecha();
         }
 
         function changePuesto() {
@@ -1223,17 +1257,33 @@
             buttons.forEach(btn => btn.classList.remove('selected'));
         }
 
+        function volverAFecha() {
+            puestosPorTurno = {};
+            document.getElementById('selectorScreen').style.display = 'none';
+            document.getElementById('fechaScreen').style.display = 'flex';
+        }
+
+        function volverAlLogin() {
+            fechaSeleccionada = null;
+            document.getElementById('fechaScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
         function logout() {
             document.getElementById('appScreen').style.display = 'none';
-            document.getElementById('selectorScreen').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             usuarioActual = null;
+            fechaSeleccionada = null;
             turnosDeHoy = {};
             puestosPorTurno = {};
             tareasCompletadas = {};
         }
+
+        document.getElementById('fechaInput').addEventListener('change', mostrarInfoFecha);
     </script>
 </body>
 </html>
