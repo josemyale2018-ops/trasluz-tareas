@@ -282,6 +282,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #f3f4f6;
         }
         .standard-image img {
             width: 100%;
@@ -302,6 +303,29 @@
         }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
         .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
+        .notes-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .notes-box label {
+            color: #92400e;
+            font-weight: 700;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .notes-box textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #fbbf24;
+            border-radius: 6px;
+            font-size: 13px;
+            height: 80px;
+            font-family: inherit;
+        }
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; }
         }
@@ -342,18 +366,45 @@
                 <button class="logout-btn" onclick="logout()">Salir</button>
             </div>
 
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('tareas')">📋 Tareas</button>
-                <button class="tab-btn" onclick="switchTab('incidencias')">🚨 Incidencias</button>
-                <button class="tab-btn" onclick="switchTab('estandares')">📚 Estándares</button>
+            <div class="tabs" id="tabsContainer">
+                <button class="tab-btn active" onclick="switchTab('estandares')">📚 Estándares</button>
+                <button class="tab-btn" onclick="switchTab('tareas')">📋 Tareas</button>
+                <button class="tab-btn" id="tabIncidencias" style="display: none;" onclick="switchTab('incidencias')">🚨 Incidencias</button>
                 <button class="tab-btn" id="tabSupervisor" style="display: none;" onclick="switchTab('supervisor')">👁️ Revisar</button>
             </div>
 
-            <div id="tab-tareas" class="tab-content active">
+            <!-- TAB: ESTÁNDARES -->
+            <div id="tab-estandares" class="tab-content active">
+                <div class="card">
+                    <h2>Estándares El Trasluz</h2>
+                    <p style="color: #6b7280; margin-bottom: 20px;">Estos son los estándares de excelencia que seguimos. Revísalos antes de cada turno.</p>
+                    <div class="standards-grid">
+                        <div class="standard-image">
+                            <img src="https://drive.google.com/uc?export=view&id=1hNYS-Hn3iYbc1CflGbDNoLs-D_0UWL2H" alt="Coreografía del Servicio" onerror="this.style.display='none'">
+                        </div>
+                        <div class="standard-image">
+                            <img src="https://drive.google.com/uc?export=view&id=1TQkI0i-OL0POsKnD_fTpE0qUkEsZlVQf" alt="Estándares de Excelencia" onerror="this.style.display='none'">
+                        </div>
+                        <div class="standard-image">
+                            <img src="https://drive.google.com/uc?export=view&id=1FxF222-7iWanmbn3zLajZHaN0AvVjODi" alt="Cultura de Excelencia" onerror="this.style.display='none'">
+                        </div>
+                        <div class="standard-image">
+                            <img src="https://drive.google.com/uc?export=view&id=1aMVHQ2eJcg_8cNftFTYqkDPaMPd_0gUW" alt="Higiene y Cierre Técnico" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: TAREAS -->
+            <div id="tab-tareas" class="tab-content">
                 <div class="main-grid">
                     <div class="card">
                         <h2>Mis Tareas Hoy</h2>
                         <div id="tasksList"></div>
+                        <div class="notes-box">
+                            <label>📝 Notas (opcional)</label>
+                            <textarea id="notasBox" placeholder="Escribe cualquier nota sobre el turno..."></textarea>
+                        </div>
                         <button class="submit-btn" onclick="submitTasks()">✓ Enviar Tareas</button>
                     </div>
                     <div>
@@ -368,11 +419,18 @@
                 </div>
             </div>
 
+            <!-- TAB: INCIDENCIAS -->
             <div id="tab-incidencias" class="tab-content">
                 <div class="card">
                     <h2>Registrar Incidencia</h2>
                     <form onsubmit="submitIncidencia(event)">
                         <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <div>
+                                <label style="color: #1f2937; font-weight: 600; font-size: 13px;">Camarero (Tarea incompleta)</label>
+                                <select id="incidenciaCamarero" required style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px;">
+                                    <option value="">-- Selecciona camarero --</option>
+                                </select>
+                            </div>
                             <div>
                                 <label style="color: #1f2937; font-weight: 600; font-size: 13px;">Tarea No Completada</label>
                                 <select id="incidenciaTarea" required style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px;">
@@ -380,12 +438,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label style="color: #1f2937; font-weight: 600; font-size: 13px;">Descripción</label>
+                                <label style="color: #1f2937; font-weight: 600; font-size: 13px;">Descripción del Problema</label>
                                 <textarea id="incidenciaDesc" placeholder="Describe el problema..." required style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; height: 100px;"></textarea>
-                            </div>
-                            <div>
-                                <label style="color: #1f2937; font-weight: 600; font-size: 13px;">Link de Foto (Drive)</label>
-                                <input type="url" id="incidenciaFoto" placeholder="https://drive.google.com/..." required style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px;">
                             </div>
                             <button type="submit" class="submit-btn">📸 Registrar Incidencia</button>
                         </div>
@@ -393,36 +447,16 @@
                 </div>
             </div>
 
-            <div id="tab-estandares" class="tab-content">
-                <div class="card">
-                    <h2>Estándares El Trasluz</h2>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Estos son los estándares de excelencia. Revísalos antes de cada turno.</p>
-                    <div class="standards-grid">
-                        <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1hNYS-Hn3iYbc1CflGbDNoLs-D_0UWL2H" alt="Coreografía">
-                        </div>
-                        <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1TQkI0i-OL0POsKnD_fTpE0qUkEsZlVQf" alt="Estándares">
-                        </div>
-                        <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1FxF222-7iWanmbn3zLajZHaN0AvVjODi" alt="Cultura">
-                        </div>
-                        <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1aMVHQ2eJcg_8cNftFTYqkDPaMPd_0gUW" alt="Higiene">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <!-- TAB: SUPERVISOR -->
             <div id="tab-supervisor" class="tab-content">
                 <div class="card">
                     <h2>Revisar Tareas del Equipo</h2>
                     <div class="supervisor-controls">
-                        <h3>👤 Selecciona un Camarero</h3>
-                        <select id="selectCamarero" class="select-camarero" onchange="cargarTareasCamarero()">
-                            <option value="">-- Selecciona camarero --</option>
+                        <h3>👤 Selecciona Persona para Revisar</h3>
+                        <select id="selectPersona" class="select-camarero" onchange="cargarTareasPersona()">
+                            <option value="">-- Selecciona --</option>
                         </select>
-                        <div id="tareasCamareroDiv"></div>
+                        <div id="tareasPersonaDiv"></div>
                         <button class="revision-btn" onclick="marcarComoRevisado()" style="display: none;" id="revisionBtn">✓ Marcar como Revisado</button>
                     </div>
                 </div>
@@ -493,7 +527,7 @@
         let usuarioActual = null;
         let tareasCompletadasOrganizacionAntes = false;
         let tareasCompletadasLimpieza = {};
-        let camarerSeleccionado = null;
+        let personaSeleccionada = null;
 
         function handleLogin(event) {
             event.preventDefault();
@@ -520,8 +554,9 @@
             document.getElementById('userInfo').textContent = `${info.rol}`;
             
             if (info.isSupervisor) {
+                document.getElementById('tabIncidencias').style.display = 'block';
                 document.getElementById('tabSupervisor').style.display = 'block';
-                poblarSelectCamareros();
+                poblarSelectPersonas();
             }
             
             renderTasks();
@@ -613,33 +648,36 @@
             document.getElementById('progressText').textContent = `${completed} de ${total} completadas`;
         }
 
-        function poblarSelectCamareros() {
-            const select = document.getElementById('selectCamarero');
-            select.innerHTML = '<option value="">-- Selecciona camarero --</option>';
+        function poblarSelectPersonas() {
+            const select = document.getElementById('selectPersona');
+            select.innerHTML = '<option value="">-- Selecciona --</option>';
             
             Object.keys(camareros).forEach(key => {
-                if (!camareros[key].isSupervisor) {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.textContent = camareros[key].nombre;
-                    select.appendChild(option);
-                }
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = camareros[key].nombre + ' (' + camareros[key].rol + ')';
+                select.appendChild(option);
             });
         }
 
-        function cargarTareasCamarero() {
-            const select = document.getElementById('selectCamarero');
-            const camareroKey = select.value;
+        function cargarTareasPersona() {
+            const select = document.getElementById('selectPersona');
+            const personaKey = select.value;
             
-            if (!camareroKey) return;
+            if (!personaKey) return;
             
-            camarerSeleccionado = camareroKey;
-            const div = document.getElementById('tareasCamareroDiv');
+            personaSeleccionada = personaKey;
+            const div = document.getElementById('tareasPersonaDiv');
             div.innerHTML = '';
             
-            let tareasUsuario = usuarioActual === 'andriek' ? tareasDesayuno.andriekBarra : tareasDesayuno.joseMiguelBarra;
+            let tareasPersona = personaKey === 'andriek' ? tareasDesayuno.andriekBarra : tareasDesayuno.joseMiguelBarra;
             
-            tareasUsuario.limpieza.forEach((tarea, index) => {
+            if (!tareasPersona) {
+                div.innerHTML = '<p style="color: #6b7280;">Sin tareas para esta persona</p>';
+                return;
+            }
+            
+            tareasPersona.limpieza.forEach((tarea, index) => {
                 const taskDiv = document.createElement('div');
                 taskDiv.className = 'task-item';
                 taskDiv.innerHTML = `
@@ -653,21 +691,23 @@
         }
 
         function marcarComoRevisado() {
-            alert(`✓ Tareas de ${camareros[camarerSeleccionado].nombre} marcadas como revisadas`);
+            alert(`✓ Tareas de ${camareros[personaSeleccionada].nombre} marcadas como revisadas`);
         }
 
         function submitIncidencia(event) {
             event.preventDefault();
+            const camarero = document.getElementById('incidenciaCamarero').value;
             const tarea = document.getElementById('incidenciaTarea').value;
-            alert(`✓ Incidencia registrada!\n\nTarea: ${tarea}`);
+            alert(`✓ Incidencia registrada!\n\nCamarero: ${camarero}\nTarea: ${tarea}`);
             document.getElementById('incidenciaDesc').value = '';
-            document.getElementById('incidenciaFoto').value = '';
+            document.getElementById('incidenciaCamarero').value = '';
             document.getElementById('incidenciaTarea').value = '';
         }
 
         function submitTasks() {
             const info = camareros[usuarioActual];
-            alert(`✓ Tareas enviadas!\n\n${info.nombre}`);
+            const notas = document.getElementById('notasBox').value;
+            alert(`✓ Tareas enviadas!\n\n${info.nombre}${notas ? '\n\nNotas: ' + notas : ''}`);
         }
 
         function logout() {
