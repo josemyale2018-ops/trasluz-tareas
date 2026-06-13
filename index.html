@@ -13,8 +13,6 @@
             padding: 20px;
         }
         .container { max-width: 1400px; margin: 0 auto; }
-        
-        /* LOGIN */
         .login-screen { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .login-card {
             background: white;
@@ -86,8 +84,6 @@
         }
         .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(37,99,235,0.3); }
         .error { color: #dc2626; font-size: 12px; display: none; }
-        
-        /* APP */
         .app-screen { display: none; }
         .header {
             background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
@@ -111,8 +107,6 @@
             cursor: pointer;
             font-weight: 600;
         }
-        
-        /* TABS */
         .tabs {
             display: flex;
             gap: 10px;
@@ -136,9 +130,6 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
-        /* CONTENT */
-        .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
         .card {
             background: white;
             border-radius: 12px;
@@ -146,9 +137,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .card h2 { font-size: 24px; color: #1f2937; margin-bottom: 20px; }
-        .card h3 { font-size: 18px; color: #1f2937; margin-bottom: 15px; margin-top: 20px; }
-        
-        /* SECCIONES */
         .section-box {
             background: #f9fafb;
             border: 2px solid #e5e7eb;
@@ -160,7 +148,7 @@
             font-size: 16px;
             font-weight: 700;
             color: #1e40af;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid #93c5fd;
         }
@@ -168,6 +156,11 @@
             font-size: 14px;
             color: #374151;
             line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .section-content li {
+            margin-left: 20px;
+            margin-bottom: 6px;
         }
         .confirm-btn {
             width: 100%;
@@ -179,6 +172,7 @@
             font-weight: 700;
             cursor: pointer;
             margin-top: 12px;
+            font-size: 14px;
         }
         .confirm-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
         .confirm-btn.confirmed {
@@ -186,8 +180,6 @@
             color: #4f46e5;
             cursor: default;
         }
-        
-        /* TAREAS */
         .task-item {
             padding: 12px;
             background: #eff6ff;
@@ -228,8 +220,6 @@
             text-decoration: line-through; 
             color: #6b7280; 
         }
-        
-        /* SUPERVISORES */
         .supervisor-controls {
             background: #fef3c7;
             border: 2px solid #fbbf24;
@@ -261,8 +251,6 @@
             cursor: pointer;
         }
         .revision-btn:hover { background: #ea580c; }
-        
-        /* SIDEBAR */
         .sidebar-card {
             background: white;
             border-radius: 12px;
@@ -285,8 +273,6 @@
             width: 0%;
             transition: width 0.3s;
         }
-        
-        /* ESTÁNDARES */
         .standards-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -302,8 +288,6 @@
             height: auto;
             display: block;
         }
-        
-        /* BOTONES */
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -317,16 +301,13 @@
             margin-top: 20px;
         }
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
-        
+        .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; }
-            .tabs { gap: 5px; }
-            .tab-btn { padding: 10px 15px; font-size: 13px; }
         }
     </style>
 </head>
 <body>
-    <!-- LOGIN -->
     <div id="loginScreen" class="login-screen">
         <div class="login-card">
             <div class="logo">
@@ -349,7 +330,6 @@
         </div>
     </div>
 
-    <!-- APP -->
     <div id="appScreen" class="app-screen">
         <div class="container">
             <div class="header">
@@ -362,15 +342,13 @@
                 <button class="logout-btn" onclick="logout()">Salir</button>
             </div>
 
-            <!-- TABS -->
             <div class="tabs">
                 <button class="tab-btn active" onclick="switchTab('tareas')">📋 Tareas</button>
                 <button class="tab-btn" onclick="switchTab('incidencias')">🚨 Incidencias</button>
-                <button class="tab-btn" id="tabEstandares" onclick="switchTab('estandares')">📚 Estándares</button>
-                <button class="tab-btn" id="tabSupervisor" style="display: none;" onclick="switchTab('supervisor')">👁️ Revisar Tareas</button>
+                <button class="tab-btn" onclick="switchTab('estandares')">📚 Estándares</button>
+                <button class="tab-btn" id="tabSupervisor" style="display: none;" onclick="switchTab('supervisor')">👁️ Revisar</button>
             </div>
 
-            <!-- TAB: TAREAS -->
             <div id="tab-tareas" class="tab-content active">
                 <div class="main-grid">
                     <div class="card">
@@ -390,7 +368,6 @@
                 </div>
             </div>
 
-            <!-- TAB: INCIDENCIAS -->
             <div id="tab-incidencias" class="tab-content">
                 <div class="card">
                     <h2>Registrar Incidencia</h2>
@@ -416,29 +393,27 @@
                 </div>
             </div>
 
-            <!-- TAB: ESTÁNDARES -->
             <div id="tab-estandares" class="tab-content">
                 <div class="card">
                     <h2>Estándares El Trasluz</h2>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Estos son los estándares de excelencia que seguimos. Revísalos antes de cada turno.</p>
+                    <p style="color: #6b7280; margin-bottom: 20px;">Estos son los estándares de excelencia. Revísalos antes de cada turno.</p>
                     <div class="standards-grid">
                         <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1hNYS-Hn3iYbc1CflGbDNoLs-D_0UWL2H" alt="Coreografía del Servicio">
+                            <img src="https://drive.google.com/uc?export=view&id=1hNYS-Hn3iYbc1CflGbDNoLs-D_0UWL2H" alt="Coreografía">
                         </div>
                         <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1TQkI0i-OL0POsKnD_fTpE0qUkEsZlVQf" alt="Estándares de Excelencia">
+                            <img src="https://drive.google.com/uc?export=view&id=1TQkI0i-OL0POsKnD_fTpE0qUkEsZlVQf" alt="Estándares">
                         </div>
                         <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1FxF222-7iWanmbn3zLajZHaN0AvVjODi" alt="Cultura de Excelencia">
+                            <img src="https://drive.google.com/uc?export=view&id=1FxF222-7iWanmbn3zLajZHaN0AvVjODi" alt="Cultura">
                         </div>
                         <div class="standard-image">
-                            <img src="https://drive.google.com/uc?export=view&id=1aMVHQ2eJcg_8cNftFTYqkDPaMPd_0gUW" alt="Higiene y Cierre Técnico">
+                            <img src="https://drive.google.com/uc?export=view&id=1aMVHQ2eJcg_8cNftFTYqkDPaMPd_0gUW" alt="Higiene">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB: SUPERVISOR -->
             <div id="tab-supervisor" class="tab-content">
                 <div class="card">
                     <h2>Revisar Tareas del Equipo</h2>
@@ -456,7 +431,6 @@
     </div>
 
     <script>
-        // ===== CREDENCIALES =====
         const credenciales = {
             andriek: "barra.2026",
             jose: "sala.1914",
@@ -475,55 +449,49 @@
             nicolas: { nombre: 'Nicolás', rol: 'Dueño', isSupervisor: true }
         };
 
-        // ===== TAREAS POR TURNO =====
-        const tareasPorTurno = {
-            desayuno: {
-                antes: {
-                    titulo: "Organización - ANTES del Servicio",
-                    tareas: [
-                        'Poner la música',
-                        'Encender ventiladores',
-                        'Bajar pan y abastecer insumos',
-                        'Sacar la terraza',
-                        'Colocar papeleras',
-                        'Sacar carteles',
-                        'Colocar cartas de desayunos',
-                        'Colocar servilleteros',
-                        'Colocar botellas de adorno',
-                        'Verificar mesas limpias',
-                        'Triturar tomate',
-                        'Preparar zumo de naranja',
-                        'Colocar platos en pase',
-                        'Encender lavavajillas',
-                        'Encender freidora',
-                        'Sacar jarras (leche, sin lactosa, chocolate)',
-                        'Verificar iluminación',
-                        'Revisar baños limpios'
-                    ]
-                },
-                limpieza: {
-                    titulo: "Limpieza - DURANTE y FINAL del Servicio",
-                    tareas: [
-                        'Limpiar mesas sala y terraza',
-                        'Recargar servilletas',
-                        'Repasar cafetera',
-                        'Vaciar recipiente de café',
-                        'Limpiar y secar jarras',
-                        'Limpiar tazas y vasos',
-                        'Repasar papeleras baños',
-                        'Limpiar trituradora y exprimidora',
-                        'Apilar platos para cocina'
-                    ]
-                },
-                despues: {
-                    titulo: "Organización - DESPUÉS del Servicio",
-                    tareas: []
-                }
+        const tareasDesayuno = {
+            andriekBarra: {
+                organizacionAntes: [
+                    'Poner música', 'Encender ventiladores', 'Bajar pan y abastecer insumos',
+                    'Sacar la terraza', 'Colocar papeleras', 'Sacar carteles',
+                    'Colocar cartas de desayunos', 'Colocar servilleteros', 'Colocar botellas de adorno',
+                    'Verificar mesas limpias y secas', 'Triturar tomate', 'Preparar zumo de naranja',
+                    'Colocar platos en pase', 'Colocar servilletas de desayuno', 'Encender lavavajillas',
+                    'Encender freidora', 'Sacar jarras (leche, sin lactosa, chocolate)',
+                    'Verificar tazas y vasos limpios', 'Verificar iluminación', 'Revisar baños limpios'
+                ],
+                limpieza: [
+                    'Limpiar mesas sala y terraza', 'Recargar servilletas', 'Repasar cafetera',
+                    'Vaciar recipiente de café', 'Limpiar salida de agua cafetera', 'Limpiar y secar jarras',
+                    'Limpiar tazas, vasos, platillos, cucharillas', 'Repasar papeleras de baños',
+                    'Limpiar tabla, cuchillos, trituradora, exprimidora', 'Limpiar electrodomésticos usados',
+                    'Apilar platos para cocina'
+                ],
+                organizacionDespues: []
+            },
+            joseMiguelBarra: {
+                organizacionAntes: [
+                    'Poner música', 'Encender ventiladores', 'Bajar pan y abastecer insumos',
+                    'Sacar la terraza', 'Colocar papeleras', 'Sacar carteles',
+                    'Colocar cartas de desayunos', 'Colocar servilleteros', 'Colocar botellas de adorno',
+                    'Verificar mesas limpias y secas', 'Triturar tomate', 'Preparar zumo de naranja',
+                    'Colocar platos en pase', 'Colocar servilletas de desayuno', 'Encender lavavajillas',
+                    'Encender freidora', 'Sacar jarras (leche, sin lactosa, chocolate)',
+                    'Verificar tazas y vasos limpios', 'Verificar iluminación', 'Revisar baños limpios'
+                ],
+                limpieza: [
+                    'Limpiar mesas sala y terraza', 'Recargar servilletas', 'Repasar cafetera',
+                    'Vaciar recipiente de café', 'Limpiar salida de agua cafetera', 'Limpiar y secar jarras',
+                    'Limpiar tazas, vasos, platillos, cucharillas', 'Repasar papeleras de baños',
+                    'Limpiar tabla, cuchillos, trituradora, exprimidora', 'Limpiar electrodomésticos usados',
+                    'Apilar platos para cocina'
+                ],
+                organizacionDespues: []
             }
         };
 
         let usuarioActual = null;
-        let tareasCompletadasOrganizacion = false;
+        let tareasCompletadasOrganizacionAntes = false;
         let tareasCompletadasLimpieza = {};
         let camarerSeleccionado = null;
 
@@ -551,7 +519,6 @@
             document.getElementById('userName').textContent = info.nombre;
             document.getElementById('userInfo').textContent = `${info.rol}`;
             
-            // Mostrar tab supervisor solo para supervisores
             if (info.isSupervisor) {
                 document.getElementById('tabSupervisor').style.display = 'block';
                 poblarSelectCamareros();
@@ -572,52 +539,60 @@
             const listDiv = document.getElementById('tasksList');
             listDiv.innerHTML = '';
             
-            // Mostrar tareas ANTES
-            const turno = tareasPorTurno.desayuno;
+            let tareasUsuario = null;
             
-            if (turno.antes) {
-                const seccionAntes = document.createElement('div');
-                seccionAntes.className = 'section-box';
-                seccionAntes.innerHTML = `
-                    <div class="section-title">${turno.antes.titulo}</div>
-                    <button class="confirm-btn" id="btnOrganizacionAntes" onclick="toggleOrganizacion('antes')">
-                        ${tareasCompletadasOrganizacion ? '✓ Confirmado' : '¿Confirma que realizó toda la organización?'}
-                    </button>
+            if (usuarioActual === 'andriek') {
+                tareasUsuario = tareasDesayuno.andriekBarra;
+            } else if (usuarioActual === 'jose') {
+                tareasUsuario = tareasDesayuno.joseMiguelBarra;
+            }
+            
+            if (!tareasUsuario) {
+                listDiv.innerHTML = '<p style="color: #6b7280;">Sin tareas asignadas para este turno</p>';
+                return;
+            }
+            
+            const seccionAntes = document.createElement('div');
+            seccionAntes.className = 'section-box';
+            seccionAntes.innerHTML = `
+                <div class="section-title">🔧 Organización - ANTES del Servicio</div>
+                <div class="section-content">
+                    <ul>${tareasUsuario.organizacionAntes.map(t => `<li>${t}</li>`).join('')}</ul>
+                </div>
+                <button class="confirm-btn" id="btnOrganizacionAntes" onclick="toggleOrganizacionAntes()">
+                    ${tareasCompletadasOrganizacionAntes ? '✓ Confirmado' : '¿Confirma que realizó toda la organización?'}
+                </button>
+            `;
+            listDiv.appendChild(seccionAntes);
+            
+            const seccionLimpieza = document.createElement('div');
+            seccionLimpieza.className = 'section-box';
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'section-title';
+            titleDiv.textContent = '🧹 Limpieza - DURANTE y FINAL del Servicio';
+            seccionLimpieza.appendChild(titleDiv);
+            
+            tareasUsuario.limpieza.forEach((tarea, index) => {
+                const taskDiv = document.createElement('div');
+                const isCompleted = tareasCompletadasLimpieza[index] || false;
+                taskDiv.className = 'task-item' + (isCompleted ? ' completed' : '');
+                taskDiv.onclick = () => toggleTask(index);
+                taskDiv.innerHTML = `
+                    <div class="task-checkbox">${isCompleted ? '✓' : ''}</div>
+                    <div class="task-title">${tarea}</div>
                 `;
-                listDiv.appendChild(seccionAntes);
-            }
-            
-            // Mostrar tareas de LIMPIEZA
-            if (turno.limpieza) {
-                const seccionLimpieza = document.createElement('div');
-                seccionLimpieza.className = 'section-box';
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'section-title';
-                titleDiv.textContent = turno.limpieza.titulo;
-                seccionLimpieza.appendChild(titleDiv);
-                
-                turno.limpieza.tareas.forEach((tarea, index) => {
-                    const taskDiv = document.createElement('div');
-                    const isCompleted = tareasCompletadasLimpieza[index] || false;
-                    taskDiv.className = 'task-item' + (isCompleted ? ' completed' : '');
-                    taskDiv.onclick = () => toggleTask(index);
-                    taskDiv.innerHTML = `
-                        <div class="task-checkbox">${isCompleted ? '✓' : ''}</div>
-                        <div class="task-title">${tarea}</div>
-                    `;
-                    seccionLimpieza.appendChild(taskDiv);
-                });
-                listDiv.appendChild(seccionLimpieza);
-            }
+                seccionLimpieza.appendChild(taskDiv);
+            });
+            listDiv.appendChild(seccionLimpieza);
             
             updateProgress();
         }
 
-        function toggleOrganizacion(tipo) {
-            tareasCompletadasOrganizacion = !tareasCompletadasOrganizacion;
+        function toggleOrganizacionAntes() {
+            tareasCompletadasOrganizacionAntes = !tareasCompletadasOrganizacionAntes;
             const btn = document.getElementById('btnOrganizacionAntes');
             btn.classList.toggle('confirmed');
-            btn.textContent = tareasCompletadasOrganizacion ? '✓ Confirmado' : '¿Confirma que realizó toda la organización?';
+            btn.textContent = tareasCompletadasOrganizacionAntes ? '✓ Confirmado' : '¿Confirma que realizó toda la organización?';
         }
 
         function toggleTask(index) {
@@ -626,13 +601,13 @@
         }
 
         function updateProgress() {
-            const turno = tareasPorTurno.desayuno;
-            const totalLimpieza = turno.limpieza.tareas.length;
+            let tareasUsuario = usuarioActual === 'andriek' ? tareasDesayuno.andriekBarra : tareasDesayuno.joseMiguelBarra;
+            const totalLimpieza = tareasUsuario.limpieza.length;
             const completedLimpieza = Object.values(tareasCompletadasLimpieza).filter(v => v).length;
             
-            const total = (tareasCompletadasOrganizacion ? 1 : 0) + totalLimpieza;
-            const completed = (tareasCompletadasOrganizacion ? 1 : 0) + completedLimpieza;
-            const percent = total > 0 ? (completed / total) * 100 : 0;
+            const total = 1 + totalLimpieza;
+            const completed = (tareasCompletadasOrganizacionAntes ? 1 : 0) + completedLimpieza;
+            const percent = (completed / total) * 100;
             
             document.getElementById('progressBar').style.width = percent + '%';
             document.getElementById('progressText').textContent = `${completed} de ${total} completadas`;
@@ -662,20 +637,17 @@
             const div = document.getElementById('tareasCamareroDiv');
             div.innerHTML = '';
             
-            const turno = tareasPorTurno.desayuno;
+            let tareasUsuario = usuarioActual === 'andriek' ? tareasDesayuno.andriekBarra : tareasDesayuno.joseMiguelBarra;
             
-            // Mostrar tareas
-            if (turno.limpieza) {
-                turno.limpieza.tareas.forEach((tarea, index) => {
-                    const taskDiv = document.createElement('div');
-                    taskDiv.className = 'task-item';
-                    taskDiv.innerHTML = `
-                        <div class="task-checkbox">✓</div>
-                        <div class="task-title">${tarea}</div>
-                    `;
-                    div.appendChild(taskDiv);
-                });
-            }
+            tareasUsuario.limpieza.forEach((tarea, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task-item';
+                taskDiv.innerHTML = `
+                    <div class="task-checkbox">✓</div>
+                    <div class="task-title">${tarea}</div>
+                `;
+                div.appendChild(taskDiv);
+            });
             
             document.getElementById('revisionBtn').style.display = 'block';
         }
@@ -695,26 +667,7 @@
 
         function submitTasks() {
             const info = camareros[usuarioActual];
-            alert(`✓ Tareas enviadas!\n\n${info.nombre}\n\nRegistrado en la hoja`);
-            
-            // Enviar a Apps Script
-            const datos = {
-                camarero: info.nombre,
-                turno: 'Desayuno',
-                organizacionAntes: tareasCompletadasOrganizacion,
-                limpiezaCompletadas: Object.values(tareasCompletadasLimpieza).filter(v => v).length,
-                limpiezaTotal: tareasPorTurno.desayuno.limpieza.tareas.length,
-                timestamp: new Date().toLocaleString('es-ES')
-            };
-            
-            const urlAppsScript = "https://script.google.com/macros/s/AKfycbyARJs3JNjpsDUT32PAdZ2XxC44O3hCYFIWBwNHrAgu9RQBElSFu_h404nu7QhPWBJx/exec";
-            
-            fetch(urlAppsScript, {
-                method: 'POST',
-                body: JSON.stringify(datos)
-            })
-            .then(response => response.json())
-            .catch(error => console.log("Guardado localmente"));
+            alert(`✓ Tareas enviadas!\n\n${info.nombre}`);
         }
 
         function logout() {
