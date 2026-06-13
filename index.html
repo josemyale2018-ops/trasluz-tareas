@@ -657,52 +657,41 @@
             nicolas: { nombre: 'Nicolás', rol: 'Dueño', isSupervisor: true }
         };
 
-        // HORARIO: Semana del 13 al 21 de junio
+        // HORARIO: Semana del 15 al 21 de junio (15 junio = LUNES)
         const HORARIOS = {
-            13: { // Viernes
-                desayuno: { jose: 'barra_sala' },
-                almuerzo: { jose: 'barra', cristian: 'sala', carolina: 'sala' },
-                merienda: { andriek: 'barra_sala' },
-                cena: { andriek: 'barra_sala' }
-            },
-            14: { // Sábado
-                almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala' },
-                merienda: { andriek: 'barra_sala' },
-                cena: { jose: 'barra_sala' }
-            },
-            15: { // Domingo
+            15: { // Lunes
+                desayuno: { andriek: 'barra_sala', jose: 'barra_sala' },
                 almuerzo: { andriek: 'barra', cristian: 'sala' }
             },
-            16: { // Lunes
-                desayuno: { andriek: 'barra_sala' },
-                almuerzo: { andriek: 'barra', cristian: 'sala' }
-            },
-            17: { // Martes
+            16: { // Martes
                 desayuno: { jose: 'barra_sala' },
                 almuerzo: { jose: 'barra', carolina: 'sala' }
             },
-            18: { // Miércoles
+            17: { // Miércoles
                 desayuno: { jose: 'barra_sala' },
                 almuerzo: { jose: 'barra', carolina: 'sala' },
                 merienda: { andriek: 'barra_sala' },
                 cena: { andriek: 'barra_sala' }
             },
-            19: { // Jueves
+            18: { // Jueves
                 desayuno: { jose: 'barra_sala' },
                 almuerzo: { jose: 'barra', cristian: 'sala' },
                 merienda: { andriek: 'barra_sala' },
                 cena: { andriek: 'barra_sala' }
             },
-            20: { // Viernes
+            19: { // Viernes
                 desayuno: { jose: 'barra_sala' },
                 almuerzo: { jose: 'barra', cristian: 'sala', carolina: 'sala' },
                 merienda: { andriek: 'barra_sala' },
                 cena: { andriek: 'barra_sala' }
             },
-            21: { // Sábado
+            20: { // Sábado
                 almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala' },
                 merienda: { andriek: 'barra_sala' },
                 cena: { jose: 'barra_sala' }
+            },
+            21: { // Domingo
+                almuerzo: { andriek: 'barra', cristian: 'sala' }
             }
         };
 
@@ -1007,11 +996,11 @@
                     leyendaAntes = TAREAS_LEYENDA.desayuno_antes;
                     leyendaLimpieza = TAREAS_LEYENDA.desayuno_limpieza;
                 } else if (turno === 'almuerzo') {
-                    if (fechaSeleccionada === 15 || fechaSeleccionada === 21) { // Domingo
+                    if (fechaSeleccionada === 21) { // Domingo
                         leyendaAntes = TAREAS_LEYENDA.almuerzo_domingo_antes_sala;
                         leyendaDespues = TAREAS_LEYENDA.almuerzo_domingo_cierre_sala;
                         leyendaLimpieza = TAREAS_LEYENDA.almuerzo_domingo_limpieza_sala;
-                    } else if (fechaSeleccionada === 14 || fechaSeleccionada === 21) { // Sábado
+                    } else if (fechaSeleccionada === 20) { // Sábado
                         leyendaAntes = TAREAS_LEYENDA.almuerzo_sabado_antes_sala;
                         leyendaDespues = TAREAS_LEYENDA.almuerzo_sabado_despues_sala;
                         leyendaLimpieza = TAREAS_LEYENDA.almuerzo_sabado_limpieza_sala;
