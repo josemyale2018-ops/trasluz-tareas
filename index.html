@@ -148,22 +148,52 @@
         .card h2 { font-size: 24px; color: #1f2937; margin-bottom: 20px; }
         .card h3 { font-size: 18px; color: #1f2937; margin-bottom: 15px; margin-top: 20px; }
         
-        /* TAREAS */
-        .turno-section { margin-bottom: 30px; }
-        .turno-title {
+        /* SECCIONES */
+        .section-box {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
             font-size: 16px;
             font-weight: 700;
             color: #1e40af;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             padding-bottom: 10px;
             border-bottom: 2px solid #93c5fd;
         }
+        .section-content {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        .confirm-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        .confirm-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
+        .confirm-btn.confirmed {
+            background: #e0e7ff;
+            color: #4f46e5;
+            cursor: default;
+        }
+        
+        /* TAREAS */
         .task-item {
-            padding: 16px;
+            padding: 12px;
             background: #eff6ff;
             border: 2px solid #93c5fd;
             border-radius: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             cursor: pointer;
             display: flex;
             align-items: flex-start;
@@ -172,10 +202,10 @@
         .task-item:hover { border-color: #60a5fa; background: #dbeafe; }
         .task-item.completed { background: #dcfce7; border-color: #86efac; }
         .task-checkbox {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border: 2px solid #93c5fd;
-            border-radius: 50%;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -183,29 +213,54 @@
             flex-shrink: 0;
             font-weight: bold;
             color: white;
+            font-size: 12px;
         }
-        .task-item.completed .task-checkbox { background: #22c55e; border-color: #22c55e; }
+        .task-item.completed .task-checkbox { 
+            background: #22c55e; 
+            border-color: #22c55e; 
+        }
         .task-title {
             font-weight: 600;
             color: #1f2937;
-            font-size: 15px;
+            font-size: 14px;
         }
-        .task-item.completed .task-title { text-decoration: line-through; color: #6b7280; }
+        .task-item.completed .task-title { 
+            text-decoration: line-through; 
+            color: #6b7280; 
+        }
         
-        /* BOTONES */
-        .submit-btn {
+        /* SUPERVISORES */
+        .supervisor-controls {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .supervisor-controls h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .select-camarero {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            padding: 10px;
+            border: 2px solid #fbbf24;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .revision-btn {
+            width: 100%;
+            padding: 10px;
+            background: #f97316;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 700;
-            font-size: 16px;
             cursor: pointer;
-            margin-top: 20px;
         }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
+        .revision-btn:hover { background: #ea580c; }
         
         /* SIDEBAR */
         .sidebar-card {
@@ -248,6 +303,21 @@
             display: block;
         }
         
+        /* BOTONES */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
+        
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; }
             .tabs { gap: 5px; }
@@ -262,7 +332,7 @@
             <div class="logo">
                 <div class="logo-icon">🍽️</div>
                 <h1>Gestión de Tareas</h1>
-                <p>Limpieza y Organización</p>
+                <p>El Trasluz Sevilla</p>
             </div>
             <form class="login-form" onsubmit="handleLogin(event)">
                 <div class="input-group">
@@ -296,7 +366,8 @@
             <div class="tabs">
                 <button class="tab-btn active" onclick="switchTab('tareas')">📋 Tareas</button>
                 <button class="tab-btn" onclick="switchTab('incidencias')">🚨 Incidencias</button>
-                <button class="tab-btn" onclick="switchTab('estandares')">📚 Estándares</button>
+                <button class="tab-btn" id="tabEstandares" onclick="switchTab('estandares')">📚 Estándares</button>
+                <button class="tab-btn" id="tabSupervisor" style="display: none;" onclick="switchTab('supervisor')">👁️ Revisar Tareas</button>
             </div>
 
             <!-- TAB: TAREAS -->
@@ -349,7 +420,7 @@
             <div id="tab-estandares" class="tab-content">
                 <div class="card">
                     <h2>Estándares El Trasluz</h2>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Estos son los estándares de excelencia que seguimos en nuestro restaurante. Revísalos antes de cada turno.</p>
+                    <p style="color: #6b7280; margin-bottom: 20px;">Estos son los estándares de excelencia que seguimos. Revísalos antes de cada turno.</p>
                     <div class="standards-grid">
                         <div class="standard-image">
                             <img src="https://drive.google.com/uc?export=view&id=1hNYS-Hn3iYbc1CflGbDNoLs-D_0UWL2H" alt="Coreografía del Servicio">
@@ -363,6 +434,21 @@
                         <div class="standard-image">
                             <img src="https://drive.google.com/uc?export=view&id=1aMVHQ2eJcg_8cNftFTYqkDPaMPd_0gUW" alt="Higiene y Cierre Técnico">
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: SUPERVISOR -->
+            <div id="tab-supervisor" class="tab-content">
+                <div class="card">
+                    <h2>Revisar Tareas del Equipo</h2>
+                    <div class="supervisor-controls">
+                        <h3>👤 Selecciona un Camarero</h3>
+                        <select id="selectCamarero" class="select-camarero" onchange="cargarTareasCamarero()">
+                            <option value="">-- Selecciona camarero --</option>
+                        </select>
+                        <div id="tareasCamareroDiv"></div>
+                        <button class="revision-btn" onclick="marcarComoRevisado()" style="display: none;" id="revisionBtn">✓ Marcar como Revisado</button>
                     </div>
                 </div>
             </div>
@@ -380,179 +466,66 @@
             nicolas: "ny2026"
         };
 
-        // ===== INFORMACIÓN DE CAMAREROS =====
         const camareros = {
-            andriek: { nombre: 'Andriek', rol: 'Supervisor Barra' },
-            jose: { nombre: 'José Miguel', rol: 'Supervisor Sala' },
-            bruno: { nombre: 'Bruno', rol: 'Auxiliar' },
-            carolina: { nombre: 'Carolina', rol: 'Camarero' },
-            cristian: { nombre: 'Cristian', rol: 'Camarero' },
-            nicolas: { nombre: 'Nicolás', rol: 'Dueño' }
+            andriek: { nombre: 'Andriek', rol: 'Supervisor Barra', isSupervisor: true },
+            jose: { nombre: 'José Miguel', rol: 'Supervisor Sala', isSupervisor: true },
+            bruno: { nombre: 'Bruno', rol: 'Auxiliar', isSupervisor: false },
+            carolina: { nombre: 'Carolina', rol: 'Camarero', isSupervisor: false },
+            cristian: { nombre: 'Cristian', rol: 'Camarero', isSupervisor: false },
+            nicolas: { nombre: 'Nicolás', rol: 'Dueño', isSupervisor: true }
         };
 
         // ===== TAREAS POR TURNO =====
         const tareasPorTurno = {
             desayuno: {
-                organizativas: [
-                    'Poner la música',
-                    'Encender ventiladores',
-                    'Bajar pan y abastecer insumos',
-                    'Sacar la terraza',
-                    'Colocar papeleras',
-                    'Sacar carteles',
-                    'Colocar cartas de desayunos',
-                    'Colocar servilleteros',
-                    'Colocar botellas de adorno',
-                    'Verificar mesas limpias y secas',
-                    'Triturar tomate',
-                    'Preparar zumo de naranja',
-                    'Colocar platos en pase',
-                    'Colocar servilletas de desayuno',
-                    'Encender lavavajillas',
-                    'Encender freidora',
-                    'Sacar jarras (leche, sin lactosa, chocolate)',
-                    'Verificar tazas y vasos limpios',
-                    'Verificar iluminación',
-                    'Revisar baños limpios y abastecidos'
-                ],
-                limpieza: [
-                    'Limpiar mesas sala y terraza',
-                    'Recargar servilletas',
-                    'Repasar cafetera',
-                    'Vaciar recipiente de café',
-                    'Limpiar salida de agua cafetera',
-                    'Limpiar y secar jarras',
-                    'Limpiar tazas, vasos, platillos, cucharillas',
-                    'Repasar papeleras baños',
-                    'Limpiar tabla, cuchillos, trituradora',
-                    'Limpiar electrodomésticos usados',
-                    'Apilar platos para cocina'
-                ]
-            },
-            almuerzo: {
-                organizativas_aux: [
-                    'Dar la vuelta cartel desayunos',
-                    'Quitar cartas desayuno',
-                    'Colocar cartas mediodía (QR, Vinos, Paellas)',
-                    'Revisar y recargar cámaras'
-                ],
-                organizativas_final_aux: [
-                    'Cambiar carta mediodía por meriendas',
-                    'Dar la vuelta cartel',
-                    'Abrir sombrillas'
-                ],
-                organizativas_barra: [
-                    'Verificar copas y cubiertos listos',
-                    'Preparar pan',
-                    'Verificar combos aceite y vinagre',
-                    'Cambiar agua lavavajillas',
-                    'Preparar sangría',
-                    'Verificar abastecimiento barra',
-                    'Indicar lo que falta',
-                    'Verificar neveras abastecidas'
-                ],
-                organizativas_final_barra: [
-                    'Recargar cámaras',
-                    'Revisar necesario meriendas'
-                ],
-                limpieza_aux: [
-                    'Limpiar mesas sala y terraza',
-                    'Reponer servilletas',
-                    'Limpiar baños',
-                    'Reponer insumos baños',
-                    'Limpiar espejos baños',
-                    'Barrer suelo sala baja',
-                    'Barrer suelo sala alta',
-                    'Limpiar sillas sala',
-                    'Limpiar sillas terraza',
-                    'Barrer terraza',
-                    'Regar plantas',
-                    'Cambiar papeleras baños'
-                ],
-                limpieza_barra: [
-                    'Limpiar copas, vasos, cubiertos',
-                    'Repasar cafetera',
-                    'Limpiar tablas y cuchillos',
-                    'Sacar basura sala',
-                    'Desinfectar barra',
-                    'Limpiar bandejas'
-                ]
-            },
-            merienda: {
-                organizativas: [
-                    'Verificar abastecimiento completo',
-                    'Verificar cámaras bebidas y postres',
-                    'Abastecer si falta',
-                    'Asegurar pan y croissant',
-                    'Asegurar jamón y queso',
-                    'Asegurar naranjas',
-                    'Asegurar tartas y bizcocho limón'
-                ],
-                organizativas_final: [
-                    'Virar cartel meriendas por cenas',
-                    'Colocar cartas sugerencias',
-                    'Sacar lámparas',
-                    'Recoger sombrillas',
-                    'Encender luz terraza',
-                    'Recargar cámaras bebidas',
-                    'Preparar cubiertos cena'
-                ],
-                limpieza: [
-                    'Limpiar copas, vasos, cubiertos',
-                    'Repasar cafetera',
-                    'Limpiar tablas y cuchillos',
-                    'Sacar basura sala',
-                    'Desinfectar barra',
-                    'Limpiar bandejas',
-                    'Fregar suelo sala baja y alta',
-                    'Repaso baños',
-                    'Tirar basura (sala y baños)',
-                    'Repasar mesas',
-                    'Repasar servilleteros'
-                ]
-            },
-            cierre: {
-                organizativas: [
-                    'Verificar todo listo para servicio',
-                    'Verificar abastecimiento cámaras'
-                ],
-                organizativas_final: [
-                    'Recoger terraza',
-                    'Guardar carteles',
-                    'Guardar sombrillas',
-                    'Cargar TPV',
-                    'Cargar lámparas',
-                    'Apagar luz terraza',
-                    'Colocar platillos y cucharillas (desayuno siguiente)',
-                    'Guardar jarras leche',
-                    'Verificar café en molinillos',
-                    'Verificar cola cao y chocolate',
-                    'Reponer leches',
-                    'Reponer azúcares y tés',
-                    'Bajar campana cocina',
-                    'Verificar cocina apagada',
-                    'Preparar cubiertos almuerzo siguiente'
-                ],
-                limpieza: [
-                    'Limpiar copas, vasos, cubiertos',
-                    'Limpiar profundamente cafetera',
-                    'Limpiar tablas y cuchillos',
-                    'Sacar basura sala',
-                    'Desinfectar barra',
-                    'Limpiar bandejas',
-                    'Repasar suelos baja y alta',
-                    'Repaso baños',
-                    'Tirar basura (sala y baños)',
-                    'Limpiar mesas',
-                    'Reponer servilleteros',
-                    'Limpiar tirador cerveza y agua gas',
-                    'Sacar basura vidrios'
-                ]
+                antes: {
+                    titulo: "Organización - ANTES del Servicio",
+                    tareas: [
+                        'Poner la música',
+                        'Encender ventiladores',
+                        'Bajar pan y abastecer insumos',
+                        'Sacar la terraza',
+                        'Colocar papeleras',
+                        'Sacar carteles',
+                        'Colocar cartas de desayunos',
+                        'Colocar servilleteros',
+                        'Colocar botellas de adorno',
+                        'Verificar mesas limpias',
+                        'Triturar tomate',
+                        'Preparar zumo de naranja',
+                        'Colocar platos en pase',
+                        'Encender lavavajillas',
+                        'Encender freidora',
+                        'Sacar jarras (leche, sin lactosa, chocolate)',
+                        'Verificar iluminación',
+                        'Revisar baños limpios'
+                    ]
+                },
+                limpieza: {
+                    titulo: "Limpieza - DURANTE y FINAL del Servicio",
+                    tareas: [
+                        'Limpiar mesas sala y terraza',
+                        'Recargar servilletas',
+                        'Repasar cafetera',
+                        'Vaciar recipiente de café',
+                        'Limpiar y secar jarras',
+                        'Limpiar tazas y vasos',
+                        'Repasar papeleras baños',
+                        'Limpiar trituradora y exprimidora',
+                        'Apilar platos para cocina'
+                    ]
+                },
+                despues: {
+                    titulo: "Organización - DESPUÉS del Servicio",
+                    tareas: []
+                }
             }
         };
 
         let usuarioActual = null;
-        let tareasCompletadas = [];
+        let tareasCompletadasOrganizacion = false;
+        let tareasCompletadasLimpieza = {};
+        let camarerSeleccionado = null;
 
         function handleLogin(event) {
             event.preventDefault();
@@ -571,7 +544,6 @@
 
         function login(usuario) {
             usuarioActual = usuario;
-            tareasCompletadas = [];
             const info = camareros[usuario];
             
             document.getElementById('loginScreen').style.display = 'none';
@@ -579,8 +551,13 @@
             document.getElementById('userName').textContent = info.nombre;
             document.getElementById('userInfo').textContent = `${info.rol}`;
             
+            // Mostrar tab supervisor solo para supervisores
+            if (info.isSupervisor) {
+                document.getElementById('tabSupervisor').style.display = 'block';
+                poblarSelectCamareros();
+            }
+            
             renderTasks();
-            poblarTareasIncidencia();
         }
 
         function switchTab(tabName) {
@@ -595,81 +572,121 @@
             const listDiv = document.getElementById('tasksList');
             listDiv.innerHTML = '';
             
-            // Por ahora mostrar tareas de desayuno como ejemplo
-            const turnos = ['desayuno'];
+            // Mostrar tareas ANTES
+            const turno = tareasPorTurno.desayuno;
             
-            turnos.forEach(turno => {
-                if (tareasPorTurno[turno]) {
-                    const turnoDiv = document.createElement('div');
-                    turnoDiv.className = 'turno-section';
-                    
-                    const turnoTitle = document.createElement('div');
-                    turnoTitle.className = 'turno-title';
-                    turnoTitle.textContent = turno.charAt(0).toUpperCase() + turno.slice(1);
-                    turnoDiv.appendChild(turnoTitle);
-                    
-                    const tareas = tareasPorTurno[turno].organizativas || [];
-                    tareas.forEach((tarea, index) => {
-                        const taskDiv = document.createElement('div');
-                        taskDiv.className = 'task-item';
-                        taskDiv.onclick = () => toggleTask(index);
-                        taskDiv.innerHTML = `
-                            <div class="task-checkbox">${tareasCompletadas.includes(index) ? '✓' : ''}</div>
-                            <div class="task-title">${tarea}</div>
-                        `;
-                        turnoDiv.appendChild(taskDiv);
-                    });
-                    
-                    listDiv.appendChild(turnoDiv);
-                }
-            });
+            if (turno.antes) {
+                const seccionAntes = document.createElement('div');
+                seccionAntes.className = 'section-box';
+                seccionAntes.innerHTML = `
+                    <div class="section-title">${turno.antes.titulo}</div>
+                    <button class="confirm-btn" id="btnOrganizacionAntes" onclick="toggleOrganizacion('antes')">
+                        ${tareasCompletadasOrganizacion ? '✓ Confirmado' : '¿Confirma que realizó toda la organización?'}
+                    </button>
+                `;
+                listDiv.appendChild(seccionAntes);
+            }
+            
+            // Mostrar tareas de LIMPIEZA
+            if (turno.limpieza) {
+                const seccionLimpieza = document.createElement('div');
+                seccionLimpieza.className = 'section-box';
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'section-title';
+                titleDiv.textContent = turno.limpieza.titulo;
+                seccionLimpieza.appendChild(titleDiv);
+                
+                turno.limpieza.tareas.forEach((tarea, index) => {
+                    const taskDiv = document.createElement('div');
+                    const isCompleted = tareasCompletadasLimpieza[index] || false;
+                    taskDiv.className = 'task-item' + (isCompleted ? ' completed' : '');
+                    taskDiv.onclick = () => toggleTask(index);
+                    taskDiv.innerHTML = `
+                        <div class="task-checkbox">${isCompleted ? '✓' : ''}</div>
+                        <div class="task-title">${tarea}</div>
+                    `;
+                    seccionLimpieza.appendChild(taskDiv);
+                });
+                listDiv.appendChild(seccionLimpieza);
+            }
             
             updateProgress();
         }
 
+        function toggleOrganizacion(tipo) {
+            tareasCompletadasOrganizacion = !tareasCompletadasOrganizacion;
+            const btn = document.getElementById('btnOrganizacionAntes');
+            btn.classList.toggle('confirmed');
+            btn.textContent = tareasCompletadasOrganizacion ? '✓ Confirmado' : '¿Confirma que realizó toda la organización?';
+        }
+
         function toggleTask(index) {
-            const pos = tareasCompletadas.indexOf(index);
-            if (pos > -1) {
-                tareasCompletadas.splice(pos, 1);
-            } else {
-                tareasCompletadas.push(index);
-            }
+            tareasCompletadasLimpieza[index] = !tareasCompletadasLimpieza[index];
             renderTasks();
         }
 
         function updateProgress() {
-            const totalTareas = 20; // Ajustar según total de tareas
-            const completed = tareasCompletadas.length;
-            const percent = (completed / totalTareas) * 100;
+            const turno = tareasPorTurno.desayuno;
+            const totalLimpieza = turno.limpieza.tareas.length;
+            const completedLimpieza = Object.values(tareasCompletadasLimpieza).filter(v => v).length;
+            
+            const total = (tareasCompletadasOrganizacion ? 1 : 0) + totalLimpieza;
+            const completed = (tareasCompletadasOrganizacion ? 1 : 0) + completedLimpieza;
+            const percent = total > 0 ? (completed / total) * 100 : 0;
             
             document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressText').textContent = `${completed} de ${totalTareas} completadas`;
+            document.getElementById('progressText').textContent = `${completed} de ${total} completadas`;
         }
 
-        function poblarTareasIncidencia() {
-            const select = document.getElementById('incidenciaTarea');
-            const todasLasTareas = [];
+        function poblarSelectCamareros() {
+            const select = document.getElementById('selectCamarero');
+            select.innerHTML = '<option value="">-- Selecciona camarero --</option>';
             
-            Object.values(tareasPorTurno).forEach(turno => {
-                if (turno.organizativas) todasLasTareas.push(...turno.organizativas);
-                if (turno.limpieza) todasLasTareas.push(...turno.limpieza);
+            Object.keys(camareros).forEach(key => {
+                if (!camareros[key].isSupervisor) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = camareros[key].nombre;
+                    select.appendChild(option);
+                }
             });
+        }
+
+        function cargarTareasCamarero() {
+            const select = document.getElementById('selectCamarero');
+            const camareroKey = select.value;
             
-            select.innerHTML = '<option value="">-- Selecciona una tarea --</option>';
-            todasLasTareas.forEach(tarea => {
-                const option = document.createElement('option');
-                option.value = tarea;
-                option.textContent = tarea;
-                select.appendChild(option);
-            });
+            if (!camareroKey) return;
+            
+            camarerSeleccionado = camareroKey;
+            const div = document.getElementById('tareasCamareroDiv');
+            div.innerHTML = '';
+            
+            const turno = tareasPorTurno.desayuno;
+            
+            // Mostrar tareas
+            if (turno.limpieza) {
+                turno.limpieza.tareas.forEach((tarea, index) => {
+                    const taskDiv = document.createElement('div');
+                    taskDiv.className = 'task-item';
+                    taskDiv.innerHTML = `
+                        <div class="task-checkbox">✓</div>
+                        <div class="task-title">${tarea}</div>
+                    `;
+                    div.appendChild(taskDiv);
+                });
+            }
+            
+            document.getElementById('revisionBtn').style.display = 'block';
+        }
+
+        function marcarComoRevisado() {
+            alert(`✓ Tareas de ${camareros[camarerSeleccionado].nombre} marcadas como revisadas`);
         }
 
         function submitIncidencia(event) {
             event.preventDefault();
             const tarea = document.getElementById('incidenciaTarea').value;
-            const descripcion = document.getElementById('incidenciaDesc').value;
-            const foto = document.getElementById('incidenciaFoto').value;
-            
             alert(`✓ Incidencia registrada!\n\nTarea: ${tarea}`);
             document.getElementById('incidenciaDesc').value = '';
             document.getElementById('incidenciaFoto').value = '';
@@ -678,7 +695,26 @@
 
         function submitTasks() {
             const info = camareros[usuarioActual];
-            alert(`✓ Tareas enviadas!\n\n${info.nombre}`);
+            alert(`✓ Tareas enviadas!\n\n${info.nombre}\n\nRegistrado en la hoja`);
+            
+            // Enviar a Apps Script
+            const datos = {
+                camarero: info.nombre,
+                turno: 'Desayuno',
+                organizacionAntes: tareasCompletadasOrganizacion,
+                limpiezaCompletadas: Object.values(tareasCompletadasLimpieza).filter(v => v).length,
+                limpiezaTotal: tareasPorTurno.desayuno.limpieza.tareas.length,
+                timestamp: new Date().toLocaleString('es-ES')
+            };
+            
+            const urlAppsScript = "https://script.google.com/macros/s/AKfycbyARJs3JNjpsDUT32PAdZ2XxC44O3hCYFIWBwNHrAgu9RQBElSFu_h404nu7QhPWBJx/exec";
+            
+            fetch(urlAppsScript, {
+                method: 'POST',
+                body: JSON.stringify(datos)
+            })
+            .then(response => response.json())
+            .catch(error => console.log("Guardado localmente"));
         }
 
         function logout() {
