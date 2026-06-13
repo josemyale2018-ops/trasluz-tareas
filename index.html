@@ -85,45 +85,44 @@
         .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(37,99,235,0.3); }
         .error { color: #dc2626; font-size: 12px; display: none; }
         
-        .selector-screen { display: none; justify-content: center; align-items: center; min-height: 100vh; }
+        .selector-screen { display: none; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .selector-card {
             background: white;
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             padding: 40px;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .selector-title {
             font-size: 24px;
             color: #1e40af;
             font-weight: 800;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .selector-subtitle {
-            font-size: 16px;
-            color: #6b7280;
-            text-align: center;
             margin-bottom: 30px;
+            text-align: center;
         }
-        .selector-group {
+        .turno-selector {
+            background: #f0f9ff;
+            border: 3px solid #0284c7;
+            border-radius: 12px;
+            padding: 25px;
             margin-bottom: 25px;
         }
-        .selector-group label {
-            display: block;
-            color: #1f2937;
+        .turno-selector h3 {
+            color: #0284c7;
+            margin-bottom: 15px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 12px;
-            font-size: 14px;
         }
         .btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
         .btn-option {
-            padding: 16px;
+            padding: 14px;
             background: #eff6ff;
             border: 3px solid #93c5fd;
             border-radius: 8px;
@@ -131,7 +130,7 @@
             font-weight: 700;
             color: #1e40af;
             transition: 0.3s;
-            font-size: 14px;
+            font-size: 13px;
         }
         .btn-option:hover {
             background: #dbeafe;
@@ -226,6 +225,41 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .card h2 { font-size: 24px; color: #1f2937; margin-bottom: 20px; }
+        
+        .turno-header {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left: 5px solid #1e40af;
+            padding: 15px;
+            margin: 30px 0 20px 0;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 800;
+            color: #1e40af;
+        }
+        
+        .leyenda-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .leyenda-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+        .leyenda-content {
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.8;
+        }
+        .leyenda-content li {
+            margin-left: 20px;
+            margin-bottom: 6px;
+        }
+        
         .section-box {
             background: #f9fafb;
             border: 2px solid #e5e7eb;
@@ -241,34 +275,7 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #93c5fd;
         }
-        .section-content {
-            font-size: 14px;
-            color: #374151;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-        .section-content li {
-            margin-left: 20px;
-            margin-bottom: 6px;
-        }
-        .confirm-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-        .confirm-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
-        .confirm-btn.confirmed {
-            background: #e0e7ff;
-            color: #4f46e5;
-            cursor: default;
-        }
+        
         .task-item {
             padding: 12px;
             background: #eff6ff;
@@ -309,6 +316,42 @@
             text-decoration: line-through; 
             color: #6b7280; 
         }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
+        
+        .standards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .standard-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .standard-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+        }
+        .standard-image img:hover {
+            transform: scale(1.02);
+            transition: 0.3s;
+        }
+        
         .supervisor-controls {
             background: #fef3c7;
             border: 2px solid #fbbf24;
@@ -341,110 +384,12 @@
             margin-top: 10px;
         }
         .revision-btn:hover { background: #ea580c; }
-        .sidebar-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .sidebar-card h3 { font-size: 16px; font-weight: 700; color: #1f2937; margin-bottom: 12px; }
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 12px 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #22c55e 0%, #10b981 100%);
-            width: 0%;
-            transition: width 0.3s;
-        }
-        .standards-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        .standard-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            background: #eff6ff;
-            border: 2px solid #93c5fd;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-decoration: none;
-            color: inherit;
-        }
-        .standard-link:hover {
-            background: #dbeafe;
-            border-color: #60a5fa;
-            transform: translateY(-2px);
-        }
-        .standard-link-text {
-            font-weight: 700;
-            color: #1e40af;
-            font-size: 15px;
-        }
-        .standard-link-icon {
-            font-size: 24px;
-        }
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(34,197,94,0.3); }
+        
         .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; }
-        .notes-box {
-            background: #fef3c7;
-            border: 2px solid #fbbf24;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        .notes-box label {
-            color: #92400e;
-            font-weight: 700;
-            font-size: 13px;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .notes-box textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #fbbf24;
-            border-radius: 6px;
-            font-size: 13px;
-            height: 80px;
-            font-family: inherit;
-        }
-        .turno-header {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            border-left: 5px solid #1e40af;
-            padding: 15px;
-            margin: 30px 0 20px 0;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 800;
-            color: #1e40af;
-        }
+        
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; }
             .header { flex-direction: column; }
-            .header-left h1 { font-size: 20px; }
             .btn-group { grid-template-columns: 1fr 1fr; }
         }
     </style>
@@ -476,18 +421,8 @@
     <!-- SELECTOR SCREEN -->
     <div id="selectorScreen" class="selector-screen">
         <div class="selector-card">
-            <div class="selector-title">🍷🪑 Selecciona tu Puesto</div>
-            <div class="selector-subtitle" id="turnosInfo"></div>
-            
-            <div class="selector-group">
-                <label>¿Dónde trabajarás hoy?</label>
-                <div class="btn-group">
-                    <button type="button" class="btn-option" onclick="selectPuesto('barra')">🍷 Barra</button>
-                    <button type="button" class="btn-option" onclick="selectPuesto('sala')">🪑 Sala</button>
-                    <button type="button" class="btn-option" onclick="selectPuesto('ambos')">🍷🪑 Ambos</button>
-                </div>
-            </div>
-
+            <div class="selector-title">📋 Selecciona tu área por turno</div>
+            <div id="selectorsContainer"></div>
             <button class="btn-continue" id="continueBtn" onclick="goToApp()" disabled>Continuar →</button>
         </div>
     </div>
@@ -499,7 +434,7 @@
                 <div class="header-left">
                     <div>
                         <h1 id="userName">Usuario</h1>
-                        <p id="userInfo" id="userInfo">Puesto: <span id="puestoActual">--</span></p>
+                        <p id="userInfo">Turnos de hoy</p>
                     </div>
                 </div>
                 <div class="header-right">
@@ -518,49 +453,38 @@
             <div id="tab-estandares" class="tab-content active">
                 <div class="card">
                     <h2>Estándares El Trasluz</h2>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Haz clic para abrir los estándares de excelencia.</p>
+                    <p style="color: #6b7280; margin-bottom: 20px;">Haz clic en las imágenes para ampliar.</p>
                     <div class="standards-grid">
-                        <a href="https://drive.google.com/file/d/1hNYS-Hn3iYbc1CflGbDNoLs-D_0UWL2H/view?usp=sharing" target="_blank" class="standard-link">
-                            <span class="standard-link-text">La Coreografía del Servicio</span>
-                            <span class="standard-link-icon">🎭</span>
-                        </a>
-                        <a href="https://drive.google.com/file/d/1TQkI0i-OL0POsKnD_fTpE0qUkEsZlVQf/view?usp=sharing" target="_blank" class="standard-link">
-                            <span class="standard-link-text">Estándares de Excelencia</span>
-                            <span class="standard-link-icon">⭐</span>
-                        </a>
-                        <a href="https://drive.google.com/file/d/1FxF222-7iWanmbn3zLajZHaN0AvVjODi/view?usp=sharing" target="_blank" class="standard-link">
-                            <span class="standard-link-text">Cultura de Excelencia</span>
-                            <span class="standard-link-icon">🏆</span>
-                        </a>
-                        <a href="https://drive.google.com/file/d/1aMVHQ2eJcg_8cNftFTYqkDPaMPd_0gUW/view?usp=sharing" target="_blank" class="standard-link">
-                            <span class="standard-link-text">Higiene y Cierre Técnico</span>
-                            <span class="standard-link-icon">🧹</span>
-                        </a>
+                        <div class="standard-image">
+                            <a href="https://ibb.co/zHnQVsCg" target="_blank">
+                                <img src="https://i.ibb.co/NnVt2xfq/Whats-App-Image-2026-06-12-at-11-01-59.jpg" alt="Coreografía del Servicio">
+                            </a>
+                        </div>
+                        <div class="standard-image">
+                            <a href="https://ibb.co/0jYFwBx8" target="_blank">
+                                <img src="https://i.ibb.co/VWMQKHsr/Whats-App-Image-2026-06-12-at-11-02-04.jpg" alt="Estándares de Excelencia">
+                            </a>
+                        </div>
+                        <div class="standard-image">
+                            <a href="https://ibb.co/WNb1V7nw" target="_blank">
+                                <img src="https://i.ibb.co/35DHRV1q/Whats-App-Image-2026-06-12-at-11-02-01-1.jpg" alt="Cultura de Excelencia">
+                            </a>
+                        </div>
+                        <div class="standard-image">
+                            <a href="https://ibb.co/LXn7vZp1" target="_blank">
+                                <img src="https://i.ibb.co/mV6WScz4/Whats-App-Image-2026-06-12-at-11-02-01.jpg" alt="Higiene y Cierre Técnico">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- TAREAS -->
             <div id="tab-tareas" class="tab-content">
-                <div class="main-grid">
-                    <div class="card">
-                        <h2 id="tituloTareas">Mis Tareas de Hoy</h2>
-                        <div id="tasksList"></div>
-                        <div class="notes-box">
-                            <label>📝 Notas (opcional)</label>
-                            <textarea id="notasBox" placeholder="Escribe cualquier nota..."></textarea>
-                        </div>
-                        <button class="submit-btn" onclick="submitTasks()">✓ Enviar Tareas</button>
-                    </div>
-                    <div>
-                        <div class="sidebar-card">
-                            <h3>Progreso</h3>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressBar"></div>
-                            </div>
-                            <p id="progressText" style="font-size: 13px; color: #6b7280;"></p>
-                        </div>
-                    </div>
+                <div class="card">
+                    <h2 id="tituloTareas">Mis Tareas de Hoy</h2>
+                    <div id="tasksList"></div>
+                    <button class="submit-btn" onclick="submitTasks()">✓ Enviar Tareas</button>
                 </div>
             </div>
 
@@ -568,6 +492,7 @@
             <div id="tab-revisar" class="tab-content">
                 <div class="card">
                     <h2>Revisar Equipo</h2>
+                    
                     <div class="supervisor-controls">
                         <h3>👁️ Revisar Tareas</h3>
                         <select id="selectPersona" class="select-camarero" onchange="cargarTareasPersona()">
@@ -585,6 +510,16 @@
                                     <label style="color: #92400e; font-weight: 600; font-size: 13px;">Camarero</label>
                                     <select id="incidenciaCamarero" required style="width: 100%; padding: 10px; border: 2px solid #fbbf24; border-radius: 6px;">
                                         <option value="">-- Selecciona --</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="color: #92400e; font-weight: 600; font-size: 13px;">Turno</label>
+                                    <select id="incidenciaTurno" required style="width: 100%; padding: 10px; border: 2px solid #fbbf24; border-radius: 6px;">
+                                        <option value="">-- Selecciona --</option>
+                                        <option value="desayuno">Desayuno</option>
+                                        <option value="almuerzo">Almuerzo</option>
+                                        <option value="merienda">Merienda</option>
+                                        <option value="cena">Cena</option>
                                     </select>
                                 </div>
                                 <div>
@@ -619,62 +554,277 @@
             nicolas: { nombre: 'Nicolás', rol: 'Dueño', isSupervisor: true }
         };
 
-        const TAREAS = {
-            almuerzo: {
-                barra: {
-                    organizacionAntes: ['Verificar copas y cubiertos listos', 'Preparar pan', 'Verificar combos aceite y vinagre', 'Cambiar agua lavavajillas', 'Preparar sangría', 'Verificar abastecimiento barra', 'Indicar lo que falta', 'Verificar neveras abastecidas'],
-                    organizacionFinal: ['Recargar cámaras', 'Revisar necesario meriendas'],
-                    limpieza: ['Limpiar copas, vasos, cubiertos', 'Repasar cafetera', 'Limpiar tablas y cuchillos', 'Sacar basura sala', 'Desinfectar barra', 'Limpiar bandejas']
-                },
-                salaLunes: {
-                    organizacionAntes: ['Dar la vuelta cartel desayunos', 'Quitar cartas desayuno', 'Colocar cartas mediodía (QR, Vinos, Paellas)', 'Revisar y recargar cámaras'],
-                    organizacionFinal: ['Cambiar carta mediodía por meriendas', 'Dar la vuelta cartel', 'Abrir sombrillas'],
-                    limpieza: ['Limpiar mesas sala y terraza', 'Reponer servilletas', 'Limpiar baños', 'Reponer insumos baños', 'Limpiar espejos baños', 'Barrer suelo sala baja', 'Barrer suelo sala alta', 'Limpiar sillas sala', 'Limpiar sillas terraza', 'Barrer terraza', 'Regar plantas', 'Cambiar papeleras baños']
-                },
-                salaSabadoDomingo: {
-                    organizacionAntes: ['Colocar cartas mediodía (QR, Vinos, Paellas)', 'Revisar y recargar cámaras'],
-                    organizacionFinal: ['Cambiar carta mediodía por meriendas', 'Dar la vuelta cartel', 'Abrir sombrillas'],
-                    limpieza: ['Limpiar mesas sala y terraza', 'Reponer servilletas', 'Limpiar baños', 'Reponer insumos baños', 'Limpiar espejos baños', 'Barrer suelo sala baja', 'Barrer suelo sala alta', 'Limpiar sillas sala', 'Limpiar sillas terraza', 'Barrer terraza', 'Regar plantas', 'Cambiar papeleras baños']
-                }
+        // HORARIO: 15-21 de Junio 2026
+        const HORARIOS = {
+            15: { // Lunes
+                desayuno: { andriek: 'barra_sala', jose: null },
+                almuerzo: { andriek: 'barra', cristian: 'sala' }
             },
-            merienda: {
-                barra: {
-                    organizacionAntes: ['Verificar abastecimiento', 'Cámaras bebidas y postres', 'Pan y croissant', 'Jamón y queso', 'Naranjas', 'Tartas y bizcocho limón'],
-                    organizacionFinal: ['Virar cartel', 'Colocar cartas sugerencias', 'Sacar lámparas', 'Recoger sombrillas', 'Encender luz terraza', 'Recargar cámaras', 'Preparar cubiertos cena'],
-                    limpieza: ['Limpiar copas, vasos, cubiertos', 'Repasar cafetera', 'Limpiar tablas y cuchillos', 'Sacar basura sala', 'Desinfectar barra', 'Limpiar bandejas', 'Fregar suelo sala baja y alta', 'Baños', 'Mesas y servilleteros']
-                },
-                sala: {
-                    organizacionAntes: ['Verificar abastecimiento', 'Pan y croissant', 'Jamón y queso', 'Naranjas', 'Tartas y bizcocho'],
-                    organizacionFinal: ['Virar cartel', 'Colocar cartas sugerencias', 'Sacar lámparas', 'Recoger sombrillas', 'Encender luz terraza', 'Preparar cubiertos cena'],
-                    limpieza: ['Limpiar mesas', 'Reponer servilletas', 'Baños', 'Suelos', 'Terraza', 'Plantas', 'Papeleras']
-                }
+            16: { // Martes
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', carolina: 'sala' }
             },
-            cierre: {
-                general: {
-                    organizacionAntes: ['Verificar todo listo', 'Cámaras abastecidas'],
-                    organizacionFinal: ['Recoger terraza', 'Guardar carteles y sombrillas', 'Cargar TPV y lámparas', 'Apagar luz terraza', 'Platillos y cucharillas barra', 'Guardar jarras leche', 'Verificar café, cola cao, chocolate', 'Reponer leches, azúcares, tés', 'Bajar campana cocina', 'Verificar cocina apagada', 'Preparar cubiertos almuerzo siguiente'],
-                    limpieza: ['Limpiar copas, vasos, cubiertos', 'Cafetera profunda', 'Tablas y cuchillos', 'Basura', 'Desinfectar barra', 'Bandejas', 'Suelos', 'Baños', 'Mesas', 'Servilleteros', 'Tirador cerveza y agua gas', 'Basura vidrios']
-                }
+            17: { // Miércoles
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', carolina: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { andriek: 'barra_sala' }
+            },
+            18: { // Jueves
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', cristian: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { andriek: 'barra_sala' }
+            },
+            19: { // Viernes
+                desayuno: { jose: 'barra_sala' },
+                almuerzo: { jose: 'barra', cristian: 'sala', carolina: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { andriek: 'barra_sala' }
+            },
+            20: { // Sábado
+                almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala' },
+                merienda: { andriek: 'barra_sala' },
+                cena: { jose: 'barra_sala' }
+            },
+            21: { // Domingo
+                almuerzo: { andriek: 'barra', cristian: 'sala' }
             }
         };
 
-        // HORARIO HOY Y MAÑANA
-        const hoy = new Date();
-        const diaNombre = hoy.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase();
-
-        const HORARIOS = {
-            lunes: { almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: { jose: 'barra', carolina: 'sala', cristian: 'sala' } },
-            martes: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala', bruno: 'sala' }, merienda: {}, cierre: {} },
-            miércoles: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} },
-            jueves: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} },
-            viernes: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} },
-            sábado: { almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala', cristian: 'sala' }, merienda: { andriek: ['barra', 'sala'] }, cierre: { jose: 'barra', carolina: 'sala', cristian: 'sala' } },
-            domingo: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala', bruno: 'sala' }, merienda: {}, cierre: { andriek: 'barra', bruno: 'barra', carolina: 'sala', cristian: 'sala' } }
+        // TAREAS
+        const TAREAS_LEYENDA = {
+            desayuno_antes: [
+                'Poner la música',
+                'Encender ventiladores',
+                'Bajar pan y verificar insumos',
+                'Sacar la terraza',
+                'Colocar papeleras',
+                'Sacar carteles',
+                'Colocar cartas de desayunos',
+                'Colocar servilleteros',
+                'Colocar botellas de adorno',
+                'Verificar mesas limpias y secas',
+                'Encender freidora',
+                'Triturar tomate',
+                'Preparar zumo de naranja',
+                'Colocar platos en pase',
+                'Colocar servilletas de desayuno',
+                'Encender lavavajillas',
+                'Sacar jarras (leche, sin lactosa, chocolate)',
+                'Revisar tazas/vasos limpios',
+                'Verificar iluminación',
+                'Revisar baños limpios'
+            ],
+            desayuno_limpieza: [
+                'Limpiar mesas sala y terraza',
+                'Recargar servilletas',
+                'Repasar cafetera',
+                'Vaciar recipiente de café',
+                'Limpiar salida de agua cafetera',
+                'Limpiar y secar jarras',
+                'Limpiar tazas, vasos, platillos, cucharillas',
+                'Repasar papeleras de baños',
+                'Limpiar tabla, cuchillos, trituradora',
+                'Limpiar electrodomésticos usados',
+                'Apilar platos para cocina'
+            ],
+            almuerzo_lunes_antes_sala: [
+                'Dar vuelta cartel desayunos',
+                'Quitar cartas desayuno',
+                'Colocar cartas mediodía (QR, Vinos, Paellas)',
+                'Revisar y recargar cámaras'
+            ],
+            almuerzo_lunes_despues_sala: [
+                'Cambiar cartas mediodía por meriendas',
+                'Dar vuelta cartel',
+                'Abrir sombrillas',
+                'Poner a cargar lámparas'
+            ],
+            almuerzo_lunes_limpieza_sala: [
+                'Limpiar mesas sala y terraza',
+                'Reponer servilletas',
+                'Limpiar baños',
+                'Limpiar espejos baños',
+                'Barrer suelo sala baja y alta',
+                'Limpiar sillas terraza',
+                'Barrer terraza',
+                'Cambiar papeleras baños'
+            ],
+            almuerzo_sabado_antes_sala: [
+                'Poner música',
+                'Encender ventiladores',
+                'Sacar terraza',
+                'Colocar papeleras',
+                'Sacar carteles',
+                'Colocar cartas mediodía (QR, Vinos, Paellas)',
+                'Colocar servilleteros',
+                'Colocar botellas de adorno',
+                'Verificar mesas limpias y secas'
+            ],
+            almuerzo_sabado_despues_sala: [
+                'Cambiar cartas mediodía por meriendas',
+                'Dar vuelta cartel',
+                'Abrir sombrillas',
+                'Poner a cargar lámparas'
+            ],
+            almuerzo_sabado_limpieza_sala: [
+                'Limpiar mesas sala y terraza',
+                'Reponer servilletas',
+                'Limpiar baños',
+                'Limpiar espejos baños',
+                'Barrer suelo sala baja y alta',
+                'Limpiar sillas terraza',
+                'Barrer terraza',
+                'Cambiar papeleras baños'
+            ],
+            almuerzo_domingo_antes_sala: [
+                'Poner música',
+                'Encender ventiladores',
+                'Sacar terraza',
+                'Colocar papeleras',
+                'Sacar carteles',
+                'Colocar cartas mediodía (QR, Vinos, Paellas)',
+                'Colocar servilleteros',
+                'Colocar botellas de adorno',
+                'Verificar mesas limpias y secas'
+            ],
+            almuerzo_domingo_cierre_sala: [
+                'Recoger terraza',
+                'Guardar carteles',
+                'Guardar sombrillas',
+                'Poner a cargar TPVs',
+                'Apagar luz terraza',
+                'Apagar música y ventiladores'
+            ],
+            almuerzo_domingo_limpieza_sala: [
+                'Repasar suelos sala baja y alta',
+                'Limpiar baños',
+                'Tirar basura (sala y baños)',
+                'Limpiar mesas sala y terraza',
+                'Reponer servilleteros',
+                'Revisar suelos limpios para siguiente día'
+            ],
+            almuerzo_barra_antes: [
+                'Verificar copas y cubiertos listos',
+                'Preparar pan',
+                'Verificar combos aceite y vinagre llenos',
+                'Cambiar agua lavavajillas',
+                'Preparar sangría',
+                'Verificar abastecimiento barra',
+                'Indicar lo que falta',
+                'Verificar neveras abastecidas'
+            ],
+            almuerzo_barra_despues: [
+                'Recargar cámaras',
+                'Cambiar agua lavavajillas',
+                'Abastecer para meriendas'
+            ],
+            almuerzo_barra_limpieza: [
+                'Limpiar cubiertos',
+                'Repasar cafetera',
+                'Limpiar tablas y cuchillos',
+                'Sacar basura sala',
+                'Desinfectar barra',
+                'Limpiar bandejas',
+                'Reponer insumos baños',
+                'Regar plantas',
+                'Barrer y fregar suelo barra'
+            ],
+            merienda_barra_antes: [
+                'Verificar abastecimiento',
+                'Verificar cámaras bebidas y postres',
+                'Asegurar pan y croissant',
+                'Asegurar jamón, york y queso',
+                'Asegurar naranjas',
+                'Asegurar tartas y bizcocho limón'
+            ],
+            merienda_barra_despues: [
+                'Virar cartel meriendas por cenas',
+                'Colocar cartas sugerencias',
+                'Sacar lámparas',
+                'Recoger sombrillas',
+                'Encender luz terraza',
+                'Recargar cámaras',
+                'Preparar cubiertos para cena'
+            ],
+            merienda_barra_limpieza: [
+                'Limpiar tablas y cuchillos',
+                'Desinfectar barra',
+                'Limpiar bandejas',
+                'Fregar suelos sala baja y alta',
+                'Repasar baños',
+                'Tirar basura si hay mucha',
+                'Repasar mesas y terraza',
+                'Repasar servilleteros',
+                'Barrer terraza'
+            ],
+            merienda_sala_antes: [
+                'Verificar abastecimiento',
+                'Pan y croissant',
+                'Jamón, york y queso',
+                'Naranjas',
+                'Tartas y bizcocho'
+            ],
+            merienda_sala_despues: [
+                'Virar cartel',
+                'Colocar cartas sugerencias',
+                'Sacar lámparas',
+                'Recoger sombrillas',
+                'Encender luz terraza',
+                'Preparar cubiertos para cena'
+            ],
+            merienda_sala_limpieza: [
+                'Limpiar mesas',
+                'Reponer servilletas',
+                'Limpiar baños',
+                'Limpiar suelos',
+                'Terraza',
+                'Plantas',
+                'Papeleras'
+            ],
+            cena_antes: [
+                'Verificar todo listo para servicio',
+                'Verificar abastecimiento cámaras'
+            ],
+            cena_cierre: [
+                'Recoger terraza',
+                'Guardar carteles',
+                'Guardar sombrillas',
+                'Poner a cargar TPVs',
+                'Apagar luz terraza',
+                'Apagar música y ventiladores',
+                'Preparar cubiertos almuerzo siguiente',
+                'Bajar campana cocina',
+                'Verificar cocina apagada'
+            ],
+            cena_barra_limpieza: [
+                'Limpiar copas, vasos, cubiertos',
+                'Cafetera profunda',
+                'Tablas y cuchillos',
+                'Basura',
+                'Desinfectar barra',
+                'Bandejas',
+                'Suelos',
+                'Baños',
+                'Mesas',
+                'Servilleteros',
+                'Tirador cerveza y agua gas',
+                'Basura vidrios'
+            ],
+            cena_sala_limpieza: [
+                'Suelos sala baja y alta',
+                'Limpiar baños',
+                'Tirar basura',
+                'Limpiar mesas sala y terraza',
+                'Reponer servilleteros',
+                'Revisar suelos limpios para siguiente día'
+            ]
         };
 
         let usuarioActual = null;
-        let puestoSeleccionado = null;
-        let turnosDeHoy = [];
+        let turnosDeHoy = {};
+        let puestosPorTurno = {};
         let tareasCompletadas = {};
         let personaSeleccionada = null;
 
@@ -686,7 +836,7 @@
 
             if (credenciales[username] && credenciales[username] === password) {
                 usuarioActual = username;
-                mostrarSelectorPuesto();
+                detectarTurnosYMostrarSelector();
                 errorDiv.style.display = 'none';
             } else {
                 errorDiv.textContent = '❌ Datos incorrectos';
@@ -694,25 +844,62 @@
             }
         }
 
-        function mostrarSelectorPuesto() {
-            // Detectar qué turnos tiene hoy
-            const horarioHoy = HORARIOS[diaNombre] || {};
-            turnosDeHoy = [];
+        function detectarTurnosYMostrarSelector() {
+            const hoy = new Date();
+            const dia = hoy.getDate();
+            const horarioHoy = HORARIOS[dia] || {};
 
-            if (horarioHoy.almuerzo && horarioHoy.almuerzo[usuarioActual]) turnosDeHoy.push('almuerzo');
-            if (horarioHoy.merienda && horarioHoy.merienda[usuarioActual]) turnosDeHoy.push('merienda');
-            if (horarioHoy.cierre && horarioHoy.cierre[usuarioActual]) turnosDeHoy.push('cierre');
+            turnosDeHoy = {};
+            for (const turno in horarioHoy) {
+                if (horarioHoy[turno][usuarioActual]) {
+                    turnosDeHoy[turno] = true;
+                }
+            }
 
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('selectorScreen').style.display = 'flex';
-            document.getElementById('turnosInfo').textContent = `Hoy tienes: ${turnosDeHoy.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(' + ')}`;
+
+            const container = document.getElementById('selectorsContainer');
+            container.innerHTML = '';
+
+            const turnosOrden = ['desayuno', 'almuerzo', 'merienda', 'cena'];
+            turnosOrden.forEach(turno => {
+                if (turnosDeHoy[turno]) {
+                    const turnoDiv = document.createElement('div');
+                    turnoDiv.className = 'turno-selector';
+                    turnoDiv.innerHTML = `
+                        <h3>${turno.charAt(0).toUpperCase() + turno.slice(1)}</h3>
+                        <div class="btn-group">
+                            <button type="button" class="btn-option" onclick="selectTurnoPuesto('${turno}', 'barra')">🍷 Barra</button>
+                            <button type="button" class="btn-option" onclick="selectTurnoPuesto('${turno}', 'sala')">🪑 Sala</button>
+                            <button type="button" class="btn-option" onclick="selectTurnoPuesto('${turno}', 'barra_sala')">🍷🪑 Ambos</button>
+                        </div>
+                    `;
+                    container.appendChild(turnoDiv);
+                }
+            });
         }
 
-        function selectPuesto(puesto) {
-            puestoSeleccionado = puesto;
-            document.querySelectorAll('.btn-option').forEach(btn => btn.classList.remove('selected'));
+        function selectTurnoPuesto(turno, puesto) {
+            puestosPorTurno[turno] = puesto;
+            
+            const btns = document.querySelectorAll(`button[onclick*="'${turno}'"]`);
+            btns.forEach(btn => btn.classList.remove('selected'));
             event.target.classList.add('selected');
-            document.getElementById('continueBtn').disabled = false;
+
+            checkAllSelected();
+        }
+
+        function checkAllSelected() {
+            const turnosOrden = ['desayuno', 'almuerzo', 'merienda', 'cena'];
+            let allSelected = true;
+            for (const turno of turnosOrden) {
+                if (turnosDeHoy[turno] && !puestosPorTurno[turno]) {
+                    allSelected = false;
+                    break;
+                }
+            }
+            document.getElementById('continueBtn').disabled = !allSelected;
         }
 
         function goToApp() {
@@ -721,7 +908,9 @@
 
             const info = camareros[usuarioActual];
             document.getElementById('userName').textContent = info.nombre;
-            document.getElementById('puestoActual').textContent = puestoSeleccionado === 'ambos' ? 'Barra y Sala' : puestoSeleccionado;
+            
+            const turnosTexto = Object.keys(turnosDeHoy).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(' + ');
+            document.getElementById('userInfo').textContent = `Turnos: ${turnosTexto}`;
 
             if (info.isSupervisor) {
                 document.getElementById('tabRevisar').style.display = 'block';
@@ -739,18 +928,13 @@
             event.target.classList.add('active');
         }
 
-        function getTareasParaTurno(turno) {
-            if (turno === 'almuerzo') {
-                if (puestoSeleccionado === 'barra') return TAREAS.almuerzo.barra;
-                if (diaNombre === 'sábado' || diaNombre === 'domingo') return TAREAS.almuerzo.salaSabadoDomingo;
-                return TAREAS.almuerzo.salaLunes;
-            }
-            if (turno === 'merienda') {
-                if (puestoSeleccionado === 'barra') return TAREAS.merienda.barra;
-                return TAREAS.merienda.sala;
-            }
-            if (turno === 'cierre') return TAREAS.cierre.general;
-            return null;
+        function getLeyenda(turno, seccion, puesto) {
+            const key = `${turno}_${seccion}${puesto === 'barra_sala' ? '_barra_sala' : puesto === 'barra' ? '_barra' : '_sala'}`;
+            
+            // Intenta diferentes combinaciones
+            if (TAREAS_LEYENDA[key]) return TAREAS_LEYENDA[key];
+            if (TAREAS_LEYENDA[`${turno}_${seccion}`]) return TAREAS_LEYENDA[`${turno}_${seccion}`];
+            return [];
         }
 
         function renderTasks() {
@@ -758,95 +942,154 @@
             listDiv.innerHTML = '';
             tareasCompletadas = {};
 
-            turnosDeHoy.forEach(turno => {
-                const tareas = getTareasParaTurno(turno);
-                if (!tareas) return;
+            const turnosOrden = ['desayuno', 'almuerzo', 'merienda', 'cena'];
+            turnosOrden.forEach(turno => {
+                if (!turnosDeHoy[turno]) return;
 
-                // Header del turno
+                const puesto = puestosPorTurno[turno];
+                
+                // Header
                 const header = document.createElement('div');
                 header.className = 'turno-header';
-                header.textContent = turno.charAt(0).toUpperCase() + turno.slice(1) + (puestoSeleccionado !== 'ambos' ? ' - ' + puestoSeleccionado : '');
+                const puestoTexto = puesto === 'barra_sala' ? 'Barra y Sala' : puesto === 'barra' ? 'Barra' : 'Sala';
+                header.textContent = `${turno.charAt(0).toUpperCase() + turno.slice(1)} - ${puestoTexto}`;
                 listDiv.appendChild(header);
 
-                // Organización ANTES
-                if (tareas.organizacionAntes && tareas.organizacionAntes.length > 0) {
-                    const seccion = document.createElement('div');
-                    seccion.className = 'section-box';
-                    seccion.innerHTML = `
-                        <div class="section-title">🔧 Organización - ANTES</div>
-                        <div class="section-content"><ul>${tareas.organizacionAntes.map(t => `<li>${t}</li>`).join('')}</ul></div>
-                        <button class="confirm-btn" onclick="confirmarSeccion('${turno}_antes')">¿Confirma que realizó?</button>
+                // LEYENDAS
+                let leyendaAntes = [];
+                let leyendaDespues = [];
+                let leyendaLimpieza = [];
+
+                if (turno === 'desayuno') {
+                    leyendaAntes = TAREAS_LEYENDA.desayuno_antes;
+                    leyendaLimpieza = TAREAS_LEYENDA.desayuno_limpieza;
+                } else if (turno === 'almuerzo') {
+                    if (new Date().getDate() === 21) { // Domingo
+                        leyendaAntes = TAREAS_LEYENDA.almuerzo_domingo_antes_sala;
+                        leyendaDespues = TAREAS_LEYENDA.almuerzo_domingo_cierre_sala;
+                        leyendaLimpieza = TAREAS_LEYENDA.almuerzo_domingo_limpieza_sala;
+                    } else if (new Date().getDay() === 6) { // Sábado
+                        leyendaAntes = TAREAS_LEYENDA.almuerzo_sabado_antes_sala;
+                        leyendaDespues = TAREAS_LEYENDA.almuerzo_sabado_despues_sala;
+                        leyendaLimpieza = TAREAS_LEYENDA.almuerzo_sabado_limpieza_sala;
+                    } else { // Lunes a Viernes
+                        if (puesto === 'barra' || puesto === 'barra_sala') {
+                            leyendaAntes = TAREAS_LEYENDA.almuerzo_barra_antes;
+                            leyendaDespues = TAREAS_LEYENDA.almuerzo_barra_despues;
+                            leyendaLimpieza = TAREAS_LEYENDA.almuerzo_barra_limpieza;
+                        } else {
+                            leyendaAntes = TAREAS_LEYENDA.almuerzo_lunes_antes_sala;
+                            leyendaDespues = TAREAS_LEYENDA.almuerzo_lunes_despues_sala;
+                            leyendaLimpieza = TAREAS_LEYENDA.almuerzo_lunes_limpieza_sala;
+                        }
+                    }
+                } else if (turno === 'merienda') {
+                    if (puesto === 'barra' || puesto === 'barra_sala') {
+                        leyendaAntes = TAREAS_LEYENDA.merienda_barra_antes;
+                        leyendaDespues = TAREAS_LEYENDA.merienda_barra_despues;
+                        leyendaLimpieza = TAREAS_LEYENDA.merienda_barra_limpieza;
+                    } else {
+                        leyendaAntes = TAREAS_LEYENDA.merienda_sala_antes;
+                        leyendaDespues = TAREAS_LEYENDA.merienda_sala_despues;
+                        leyendaLimpieza = TAREAS_LEYENDA.merienda_sala_limpieza;
+                    }
+                } else if (turno === 'cena') {
+                    leyendaAntes = TAREAS_LEYENDA.cena_antes;
+                    leyendaDespues = TAREAS_LEYENDA.cena_cierre;
+                    if (puesto === 'barra' || puesto === 'barra_sala') {
+                        leyendaLimpieza = TAREAS_LEYENDA.cena_barra_limpieza;
+                    } else {
+                        leyendaLimpieza = TAREAS_LEYENDA.cena_sala_limpieza;
+                    }
+                }
+
+                // Antes
+                if (leyendaAntes.length > 0) {
+                    const leyenda = document.createElement('div');
+                    leyenda.className = 'leyenda-box';
+                    leyenda.innerHTML = `
+                        <div class="leyenda-title">🔧 Antes del Servicio</div>
+                        <div class="leyenda-content">
+                            <ul>${leyendaAntes.map(t => `<li>✓ ${t}</li>`).join('')}</ul>
+                        </div>
                     `;
-                    listDiv.appendChild(seccion);
+                    listDiv.appendChild(leyenda);
                 }
 
                 // Limpieza
-                if (tareas.limpieza && tareas.limpieza.length > 0) {
+                if (leyendaLimpieza.length > 0) {
                     const seccion = document.createElement('div');
                     seccion.className = 'section-box';
                     const titulo = document.createElement('div');
                     titulo.className = 'section-title';
-                    titulo.textContent = '🧹 Limpieza';
+                    titulo.textContent = '🧹 Tareas de Limpieza';
                     seccion.appendChild(titulo);
 
-                    tareas.limpieza.forEach((tarea, index) => {
+                    const key = `${turno}_limpieza`;
+                    leyendaLimpieza.forEach((tarea, index) => {
                         const task = document.createElement('div');
                         task.className = 'task-item';
-                        const key = `${turno}_limpieza_${index}`;
-                        task.onclick = () => toggleTask(key);
+                        const taskKey = `${key}_${index}`;
+                        task.onclick = () => toggleTask(taskKey);
                         task.innerHTML = `<div class="task-checkbox"></div><div class="task-title">${tarea}</div>`;
                         seccion.appendChild(task);
                     });
                     listDiv.appendChild(seccion);
                 }
 
-                // Organización DESPUÉS
-                if (tareas.organizacionFinal && tareas.organizacionFinal.length > 0) {
-                    const seccion = document.createElement('div');
-                    seccion.className = 'section-box';
-                    seccion.innerHTML = `
-                        <div class="section-title">🔧 Organización - DESPUÉS</div>
-                        <div class="section-content"><ul>${tareas.organizacionFinal.map(t => `<li>${t}</li>`).join('')}</ul></div>
-                        <button class="confirm-btn" onclick="confirmarSeccion('${turno}_despues')">¿Confirma que realizó?</button>
+                // Después
+                if (leyendaDespues.length > 0) {
+                    const leyenda = document.createElement('div');
+                    leyenda.className = 'leyenda-box';
+                    leyenda.innerHTML = `
+                        <div class="leyenda-title">🔧 Después del Servicio / Cierre</div>
+                        <div class="leyenda-content">
+                            <ul>${leyendaDespues.map(t => `<li>✓ ${t}</li>`).join('')}</ul>
+                        </div>
                     `;
-                    listDiv.appendChild(seccion);
+                    listDiv.appendChild(leyenda);
                 }
             });
-
-            updateProgress();
         }
 
         function toggleTask(key) {
             tareasCompletadas[key] = !tareasCompletadas[key];
-            renderTasks();
-        }
-
-        function confirmarSeccion(key) {
-            tareasCompletadas[key] = !tareasCompletadas[key];
-            renderTasks();
-        }
-
-        function updateProgress() {
-            let total = 0;
-            turnosDeHoy.forEach(turno => {
-                const tareas = getTareasParaTurno(turno);
-                if (tareas) {
-                    total += (tareas.organizacionAntes?.length || 0) + (tareas.limpieza?.length || 0) + (tareas.organizacionFinal?.length || 0);
+            
+            // Actualizar visualmente
+            const items = document.querySelectorAll('.task-item');
+            items.forEach(item => {
+                const task = item.querySelector('.task-title').textContent;
+                const hasKey = Object.keys(tareasCompletadas).some(k => tareasCompletadas[k] && item.textContent.includes(task));
+                if (hasKey && tareasCompletadas[Object.keys(tareasCompletadas).find(k => tareasCompletadas[k] && item.textContent.includes(task))]) {
+                    item.classList.add('completed');
                 }
             });
-
-            const completed = Object.keys(tareasCompletadas).length;
-            const percent = total > 0 ? (completed / total) * 100 : 0;
-
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressText').textContent = `${completed} de ${total} completadas`;
         }
 
-        function changePuesto() {
-            puestoSeleccionado = null;
-            document.getElementById('appScreen').style.display = 'none';
-            document.getElementById('selectorScreen').style.display = 'flex';
-            document.getElementById('continueBtn').disabled = true;
+        function submitTasks() {
+            const completedCount = Object.values(tareasCompletadas).filter(v => v).length;
+            const info = camareros[usuarioActual];
+            const turnosTexto = Object.keys(turnosDeHoy).map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ');
+            const puestosTexto = Object.entries(puestosPorTurno).map(([t, p]) => `${t}: ${p === 'barra_sala' ? 'Barra y Sala' : p}`).join(' | ');
+            
+            alert(`✓ TAREAS ENVIADAS\n\n${info.nombre}\nTurnos: ${turnosTexto}\n${puestosTexto}\nTareas de limpieza completadas: ${completedCount}\n\nEmail enviado a: josemyale2018@gmail.com`);
+        }
+
+        function marcarComoRevisado() {
+            alert(`✓ Tareas de ${camareros[personaSeleccionada].nombre} marcadas como revisadas\n\nEmail enviado a: josemyale2018@gmail.com`);
+        }
+
+        function submitIncidencia(event) {
+            event.preventDefault();
+            const camarero = document.getElementById('incidenciaCamarero').value;
+            const turno = document.getElementById('incidenciaTurno').value;
+            const desc = document.getElementById('incidenciaDesc').value;
+            
+            alert(`✓ INCIDENCIA REGISTRADA\n\n${camarero}\nTurno: ${turno}\nProblema: ${desc}\n\nEmail enviado a: josemyale2018@gmail.com`);
+            
+            document.getElementById('incidenciaDesc').value = '';
+            document.getElementById('incidenciaCamarero').value = '';
+            document.getElementById('incidenciaTurno').value = '';
         }
 
         function poblarSelectPersonas() {
@@ -879,48 +1122,25 @@
             const div = document.getElementById('tareasPersonaDiv');
             div.innerHTML = '';
 
-            turnosDeHoy.forEach(turno => {
-                const tareas = getTareasParaTurno(turno);
-                if (!tareas) return;
-
-                const header = document.createElement('div');
-                header.className = 'turno-header';
-                header.textContent = turno.charAt(0).toUpperCase() + turno.slice(1);
-                div.appendChild(header);
-
-                const allTasks = [];
-                if (tareas.organizacionAntes) allTasks.push(...tareas.organizacionAntes);
-                if (tareas.limpieza) allTasks.push(...tareas.limpieza);
-                if (tareas.organizacionFinal) allTasks.push(...tareas.organizacionFinal);
-
-                allTasks.forEach(tarea => {
-                    const item = document.createElement('div');
-                    item.className = 'task-item';
-                    item.innerHTML = `<div class="task-checkbox">✓</div><div class="task-title">${tarea}</div>`;
-                    div.appendChild(item);
-                });
-            });
+            const info = camareros[personaKey];
+            const texto = document.createElement('p');
+            texto.style.color = '#6b7280';
+            texto.style.fontSize = '13px';
+            texto.textContent = `Tareas de ${info.nombre} (según el horario de hoy)`;
+            div.appendChild(texto);
 
             document.getElementById('revisionBtn').style.display = 'block';
         }
 
-        function marcarComoRevisado() {
-            alert(`✓ Tareas de ${camareros[personaSeleccionada].nombre} revisadas`);
-        }
-
-        function submitIncidencia(event) {
-            event.preventDefault();
-            const camarero = document.getElementById('incidenciaCamarero').value;
-            const desc = document.getElementById('incidenciaDesc').value;
-            alert(`✓ Incidencia registrada!\n\n${camarero}: ${desc}`);
-            document.getElementById('incidenciaDesc').value = '';
-            document.getElementById('incidenciaCamarero').value = '';
-        }
-
-        function submitTasks() {
-            const notas = document.getElementById('notasBox').value;
-            const completed = Object.keys(tareasCompletadas).length;
-            alert(`✓ TAREAS ENVIADAS\n\n${camareros[usuarioActual].nombre}\nTurnos: ${turnosDeHoy.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}\nPuesto: ${puestoSeleccionado}\nCompletadas: ${completed}\n${notas ? 'Notas: ' + notas : ''}`);
+        function changePuesto() {
+            puestosPorTurno = {};
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('selectorScreen').style.display = 'flex';
+            document.getElementById('continueBtn').disabled = true;
+            
+            const container = document.getElementById('selectorsContainer');
+            const buttons = container.querySelectorAll('.btn-option');
+            buttons.forEach(btn => btn.classList.remove('selected'));
         }
 
         function logout() {
@@ -930,8 +1150,9 @@
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             usuarioActual = null;
-            puestoSeleccionado = null;
-            turnosDeHoy = [];
+            turnosDeHoy = {};
+            puestosPorTurno = {};
+            tareasCompletadas = {};
         }
     </script>
 </body>
