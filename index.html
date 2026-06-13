@@ -98,8 +98,14 @@
             font-size: 24px;
             color: #1e40af;
             font-weight: 800;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             text-align: center;
+        }
+        .selector-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 30px;
         }
         .selector-group {
             margin-bottom: 25px;
@@ -113,7 +119,7 @@
         }
         .btn-group {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
         }
         .btn-option {
@@ -425,10 +431,21 @@
             height: 80px;
             font-family: inherit;
         }
+        .turno-header {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left: 5px solid #1e40af;
+            padding: 15px;
+            margin: 30px 0 20px 0;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 800;
+            color: #1e40af;
+        }
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; }
             .header { flex-direction: column; }
             .header-left h1 { font-size: 20px; }
+            .btn-group { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -459,20 +476,15 @@
     <!-- SELECTOR SCREEN -->
     <div id="selectorScreen" class="selector-screen">
         <div class="selector-card">
-            <div class="selector-title">⏰ Selecciona tu Turno</div>
+            <div class="selector-title">🍷🪑 Selecciona tu Puesto</div>
+            <div class="selector-subtitle" id="turnosInfo"></div>
             
             <div class="selector-group">
-                <label>Turno</label>
-                <div class="btn-group" id="turnoGroup">
-                    <!-- Se llena dinámicamente -->
-                </div>
-            </div>
-
-            <div class="selector-group">
-                <label>Puesto</label>
-                <div class="btn-group" id="puestoGroup">
+                <label>¿Dónde trabajarás hoy?</label>
+                <div class="btn-group">
                     <button type="button" class="btn-option" onclick="selectPuesto('barra')">🍷 Barra</button>
                     <button type="button" class="btn-option" onclick="selectPuesto('sala')">🪑 Sala</button>
+                    <button type="button" class="btn-option" onclick="selectPuesto('ambos')">🍷🪑 Ambos</button>
                 </div>
             </div>
 
@@ -487,11 +499,11 @@
                 <div class="header-left">
                     <div>
                         <h1 id="userName">Usuario</h1>
-                        <p id="userInfo">Turno: <span id="turnoActual">--</span> | Puesto: <span id="puestoActual">--</span></p>
+                        <p id="userInfo" id="userInfo">Puesto: <span id="puestoActual">--</span></p>
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="change-btn" onclick="changeTurnoPuesto()">🔄 Cambiar</button>
+                    <button class="change-btn" onclick="changePuesto()">🔄 Cambiar</button>
                     <button class="logout-btn" onclick="logout()">Salir</button>
                 </div>
             </div>
@@ -532,7 +544,7 @@
             <div id="tab-tareas" class="tab-content">
                 <div class="main-grid">
                     <div class="card">
-                        <h2 id="tituloTareas">Mis Tareas</h2>
+                        <h2 id="tituloTareas">Mis Tareas de Hoy</h2>
                         <div id="tasksList"></div>
                         <div class="notes-box">
                             <label>📝 Notas (opcional)</label>
@@ -614,8 +626,13 @@
                     organizacionFinal: ['Recargar cámaras', 'Revisar necesario meriendas'],
                     limpieza: ['Limpiar copas, vasos, cubiertos', 'Repasar cafetera', 'Limpiar tablas y cuchillos', 'Sacar basura sala', 'Desinfectar barra', 'Limpiar bandejas']
                 },
-                sala: {
+                salaLunes: {
                     organizacionAntes: ['Dar la vuelta cartel desayunos', 'Quitar cartas desayuno', 'Colocar cartas mediodía (QR, Vinos, Paellas)', 'Revisar y recargar cámaras'],
+                    organizacionFinal: ['Cambiar carta mediodía por meriendas', 'Dar la vuelta cartel', 'Abrir sombrillas'],
+                    limpieza: ['Limpiar mesas sala y terraza', 'Reponer servilletas', 'Limpiar baños', 'Reponer insumos baños', 'Limpiar espejos baños', 'Barrer suelo sala baja', 'Barrer suelo sala alta', 'Limpiar sillas sala', 'Limpiar sillas terraza', 'Barrer terraza', 'Regar plantas', 'Cambiar papeleras baños']
+                },
+                salaSabadoDomingo: {
+                    organizacionAntes: ['Colocar cartas mediodía (QR, Vinos, Paellas)', 'Revisar y recargar cámaras'],
                     organizacionFinal: ['Cambiar carta mediodía por meriendas', 'Dar la vuelta cartel', 'Abrir sombrillas'],
                     limpieza: ['Limpiar mesas sala y terraza', 'Reponer servilletas', 'Limpiar baños', 'Reponer insumos baños', 'Limpiar espejos baños', 'Barrer suelo sala baja', 'Barrer suelo sala alta', 'Limpiar sillas sala', 'Limpiar sillas terraza', 'Barrer terraza', 'Regar plantas', 'Cambiar papeleras baños']
                 }
@@ -643,24 +660,21 @@
 
         // HORARIO HOY Y MAÑANA
         const hoy = new Date();
-        const mañana = new Date(hoy.getTime() + 86400000);
-        const diaHoy = hoy.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase();
-        const diaMañana = mañana.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase();
+        const diaNombre = hoy.toLocaleDateString('es-ES', { weekday: 'long' }).toLowerCase();
 
         const HORARIOS = {
-            hoy: {
-                almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala', cristian: 'sala' },
-                merienda: { andriek: ['barra', 'sala'] },
-                cierre: { jose: 'barra', carolina: 'sala', cristian: 'sala' }
-            },
-            mañana: {
-                almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala', bruno: 'sala' }
-            }
+            lunes: { almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: { jose: 'barra', carolina: 'sala', cristian: 'sala' } },
+            martes: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala', bruno: 'sala' }, merienda: {}, cierre: {} },
+            miércoles: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} },
+            jueves: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} },
+            viernes: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} },
+            sábado: { almuerzo: { andriek: 'barra', carolina: 'sala', cristian: 'sala', bruno: 'sala' }, merienda: { andriek: ['barra', 'sala'] }, cierre: {} },
+            domingo: { almuerzo: { andriek: 'barra', bruno: 'sala', cristian: 'sala' }, merienda: {}, cierre: {} }
         };
 
         let usuarioActual = null;
-        let turnoSeleccionado = null;
         let puestoSeleccionado = null;
+        let turnosDeHoy = [];
         let tareasCompletadas = {};
         let personaSeleccionada = null;
 
@@ -672,7 +686,7 @@
 
             if (credenciales[username] && credenciales[username] === password) {
                 usuarioActual = username;
-                mostrarSelectorTurno();
+                mostrarSelectorPuesto();
                 errorDiv.style.display = 'none';
             } else {
                 errorDiv.textContent = '❌ Datos incorrectos';
@@ -680,45 +694,25 @@
             }
         }
 
-        function mostrarSelectorTurno() {
+        function mostrarSelectorPuesto() {
+            // Detectar qué turnos tiene hoy
+            const horarioHoy = HORARIOS[diaNombre] || {};
+            turnosDeHoy = [];
+
+            if (horarioHoy.almuerzo && horarioHoy.almuerzo[usuarioActual]) turnosDeHoy.push('almuerzo');
+            if (horarioHoy.merienda && horarioHoy.merienda[usuarioActual]) turnosDeHoy.push('merienda');
+            if (horarioHoy.cierre && horarioHoy.cierre[usuarioActual]) turnosDeHoy.push('cierre');
+
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('selectorScreen').style.display = 'flex';
-
-            // Determinar turnos disponibles para este usuario
-            const turnosDisponibles = [];
-            if (HORARIOS.hoy.almuerzo[usuarioActual]) turnosDisponibles.push('almuerzo');
-            if (HORARIOS.hoy.merienda[usuarioActual]) turnosDisponibles.push('merienda');
-            if (HORARIOS.hoy.cierre[usuarioActual]) turnosDisponibles.push('cierre');
-
-            const turnoGroup = document.getElementById('turnoGroup');
-            turnoGroup.innerHTML = '';
-            turnosDisponibles.forEach(turno => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'btn-option';
-                btn.textContent = turno.charAt(0).toUpperCase() + turno.slice(1);
-                btn.onclick = () => selectTurno(turno);
-                turnoGroup.appendChild(btn);
-            });
-        }
-
-        function selectTurno(turno) {
-            turnoSeleccionado = turno;
-            document.querySelectorAll('#turnoGroup .btn-option').forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-            checkContinueBtn();
+            document.getElementById('turnosInfo').textContent = `Hoy tienes: ${turnosDeHoy.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(' + ')}`;
         }
 
         function selectPuesto(puesto) {
             puestoSeleccionado = puesto;
-            document.querySelectorAll('#puestoGroup .btn-option').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('.btn-option').forEach(btn => btn.classList.remove('selected'));
             event.target.classList.add('selected');
-            checkContinueBtn();
-        }
-
-        function checkContinueBtn() {
-            const btn = document.getElementById('continueBtn');
-            btn.disabled = !turnoSeleccionado || !puestoSeleccionado;
+            document.getElementById('continueBtn').disabled = false;
         }
 
         function goToApp() {
@@ -727,8 +721,7 @@
 
             const info = camareros[usuarioActual];
             document.getElementById('userName').textContent = info.nombre;
-            document.getElementById('turnoActual').textContent = turnoSeleccionado.charAt(0).toUpperCase() + turnoSeleccionado.slice(1);
-            document.getElementById('puestoActual').textContent = puestoSeleccionado.charAt(0).toUpperCase() + puestoSeleccionado.slice(1);
+            document.getElementById('puestoActual').textContent = puestoSeleccionado === 'ambos' ? 'Barra y Sala' : puestoSeleccionado;
 
             if (info.isSupervisor) {
                 document.getElementById('tabRevisar').style.display = 'block';
@@ -746,19 +739,18 @@
             event.target.classList.add('active');
         }
 
-        function getTareasUsuario() {
-            const tareas = TAREAS[turnoSeleccionado];
-            if (!tareas) return null;
-
-            if (turnoSeleccionado === 'cierre') {
-                return tareas.general;
+        function getTareasParaTurno(turno) {
+            if (turno === 'almuerzo') {
+                if (puestoSeleccionado === 'barra') return TAREAS.almuerzo.barra;
+                if (diaNombre === 'sábado' || diaNombre === 'domingo') return TAREAS.almuerzo.salaSabadoDomingo;
+                return TAREAS.almuerzo.salaLunes;
             }
-
-            if (puestoSeleccionado === 'barra') {
-                return tareas.barra;
-            } else {
-                return tareas.sala;
+            if (turno === 'merienda') {
+                if (puestoSeleccionado === 'barra') return TAREAS.merienda.barra;
+                return TAREAS.merienda.sala;
             }
+            if (turno === 'cierre') return TAREAS.cierre.general;
+            return null;
         }
 
         function renderTasks() {
@@ -766,73 +758,83 @@
             listDiv.innerHTML = '';
             tareasCompletadas = {};
 
-            const tareasUsuario = getTareasUsuario();
+            turnosDeHoy.forEach(turno => {
+                const tareas = getTareasParaTurno(turno);
+                if (!tareas) return;
 
-            if (!tareasUsuario) {
-                listDiv.innerHTML = '<p style="color: #6b7280; padding: 20px;">Sin tareas para este turno.</p>';
-                return;
-            }
+                // Header del turno
+                const header = document.createElement('div');
+                header.className = 'turno-header';
+                header.textContent = turno.charAt(0).toUpperCase() + turno.slice(1) + (puestoSeleccionado !== 'ambos' ? ' - ' + puestoSeleccionado : '');
+                listDiv.appendChild(header);
 
-            document.getElementById('tituloTareas').textContent = 'Tareas - ' + turnoSeleccionado.charAt(0).toUpperCase() + turnoSeleccionado.slice(1) + ' (' + puestoSeleccionado + ')';
+                // Organización ANTES
+                if (tareas.organizacionAntes && tareas.organizacionAntes.length > 0) {
+                    const seccion = document.createElement('div');
+                    seccion.className = 'section-box';
+                    seccion.innerHTML = `
+                        <div class="section-title">🔧 Organización - ANTES</div>
+                        <div class="section-content"><ul>${tareas.organizacionAntes.map(t => `<li>${t}</li>`).join('')}</ul></div>
+                        <button class="confirm-btn" onclick="confirmarSeccion('${turno}_antes')">¿Confirma que realizó?</button>
+                    `;
+                    listDiv.appendChild(seccion);
+                }
 
-            if (tareasUsuario.organizacionAntes && tareasUsuario.organizacionAntes.length > 0) {
-                const seccion = document.createElement('div');
-                seccion.className = 'section-box';
-                seccion.innerHTML = `
-                    <div class="section-title">🔧 Organización - ANTES</div>
-                    <div class="section-content"><ul>${tareasUsuario.organizacionAntes.map(t => `<li>${t}</li>`).join('')}</ul></div>
-                    <button class="confirm-btn" onclick="confirmarSeccion('organizacionAntes')">¿Confirma que realizó toda la organización?</button>
-                `;
-                listDiv.appendChild(seccion);
-            }
+                // Limpieza
+                if (tareas.limpieza && tareas.limpieza.length > 0) {
+                    const seccion = document.createElement('div');
+                    seccion.className = 'section-box';
+                    const titulo = document.createElement('div');
+                    titulo.className = 'section-title';
+                    titulo.textContent = '🧹 Limpieza';
+                    seccion.appendChild(titulo);
 
-            if (tareasUsuario.limpieza && tareasUsuario.limpieza.length > 0) {
-                const seccion = document.createElement('div');
-                seccion.className = 'section-box';
-                const titulo = document.createElement('div');
-                titulo.className = 'section-title';
-                titulo.textContent = '🧹 Limpieza';
-                seccion.appendChild(titulo);
+                    tareas.limpieza.forEach((tarea, index) => {
+                        const task = document.createElement('div');
+                        task.className = 'task-item';
+                        const key = `${turno}_limpieza_${index}`;
+                        task.onclick = () => toggleTask(key);
+                        task.innerHTML = `<div class="task-checkbox"></div><div class="task-title">${tarea}</div>`;
+                        seccion.appendChild(task);
+                    });
+                    listDiv.appendChild(seccion);
+                }
 
-                tareasUsuario.limpieza.forEach((tarea, index) => {
-                    const task = document.createElement('div');
-                    task.className = 'task-item';
-                    task.onclick = () => toggleTask(index);
-                    task.innerHTML = `<div class="task-checkbox"></div><div class="task-title">${tarea}</div>`;
-                    seccion.appendChild(task);
-                });
-                listDiv.appendChild(seccion);
-            }
-
-            if (tareasUsuario.organizacionFinal && tareasUsuario.organizacionFinal.length > 0) {
-                const seccion = document.createElement('div');
-                seccion.className = 'section-box';
-                seccion.innerHTML = `
-                    <div class="section-title">🔧 Organización - DESPUÉS</div>
-                    <div class="section-content"><ul>${tareasUsuario.organizacionFinal.map(t => `<li>${t}</li>`).join('')}</ul></div>
-                    <button class="confirm-btn" onclick="confirmarSeccion('organizacionFinal')">¿Confirma que realizó toda la organización?</button>
-                `;
-                listDiv.appendChild(seccion);
-            }
+                // Organización DESPUÉS
+                if (tareas.organizacionFinal && tareas.organizacionFinal.length > 0) {
+                    const seccion = document.createElement('div');
+                    seccion.className = 'section-box';
+                    seccion.innerHTML = `
+                        <div class="section-title">🔧 Organización - DESPUÉS</div>
+                        <div class="section-content"><ul>${tareas.organizacionFinal.map(t => `<li>${t}</li>`).join('')}</ul></div>
+                        <button class="confirm-btn" onclick="confirmarSeccion('${turno}_despues')">¿Confirma que realizó?</button>
+                    `;
+                    listDiv.appendChild(seccion);
+                }
+            });
 
             updateProgress();
         }
 
-        function toggleTask(index) {
-            tareasCompletadas[index] = !tareasCompletadas[index];
+        function toggleTask(key) {
+            tareasCompletadas[key] = !tareasCompletadas[key];
             renderTasks();
         }
 
-        function confirmarSeccion(seccion) {
-            tareasCompletadas[seccion] = !tareasCompletadas[seccion];
+        function confirmarSeccion(key) {
+            tareasCompletadas[key] = !tareasCompletadas[key];
             renderTasks();
         }
 
         function updateProgress() {
-            const tareasUsuario = getTareasUsuario();
-            if (!tareasUsuario) return;
+            let total = 0;
+            turnosDeHoy.forEach(turno => {
+                const tareas = getTareasParaTurno(turno);
+                if (tareas) {
+                    total += (tareas.organizacionAntes?.length || 0) + (tareas.limpieza?.length || 0) + (tareas.organizacionFinal?.length || 0);
+                }
+            });
 
-            const total = (tareasUsuario.organizacionAntes?.length || 0) + (tareasUsuario.limpieza?.length || 0) + (tareasUsuario.organizacionFinal?.length || 0);
             const completed = Object.keys(tareasCompletadas).length;
             const percent = total > 0 ? (completed / total) * 100 : 0;
 
@@ -840,12 +842,11 @@
             document.getElementById('progressText').textContent = `${completed} de ${total} completadas`;
         }
 
-        function changeTurnoPuesto() {
-            turnoSeleccionado = null;
+        function changePuesto() {
             puestoSeleccionado = null;
             document.getElementById('appScreen').style.display = 'none';
             document.getElementById('selectorScreen').style.display = 'flex';
-            mostrarSelectorTurno();
+            document.getElementById('continueBtn').disabled = true;
         }
 
         function poblarSelectPersonas() {
@@ -878,36 +879,29 @@
             const div = document.getElementById('tareasPersonaDiv');
             div.innerHTML = '';
 
-            const tareas = getTareasPersona(personaKey);
-            if (tareas) {
-                tareas.forEach(tarea => {
+            turnosDeHoy.forEach(turno => {
+                const tareas = getTareasParaTurno(turno);
+                if (!tareas) return;
+
+                const header = document.createElement('div');
+                header.className = 'turno-header';
+                header.textContent = turno.charAt(0).toUpperCase() + turno.slice(1);
+                div.appendChild(header);
+
+                const allTasks = [];
+                if (tareas.organizacionAntes) allTasks.push(...tareas.organizacionAntes);
+                if (tareas.limpieza) allTasks.push(...tareas.limpieza);
+                if (tareas.organizacionFinal) allTasks.push(...tareas.organizacionFinal);
+
+                allTasks.forEach(tarea => {
                     const item = document.createElement('div');
                     item.className = 'task-item';
                     item.innerHTML = `<div class="task-checkbox">✓</div><div class="task-title">${tarea}</div>`;
                     div.appendChild(item);
                 });
-            }
+            });
+
             document.getElementById('revisionBtn').style.display = 'block';
-        }
-
-        function getTareasPersona(personaKey) {
-            const tareasObj = TAREAS[turnoSeleccionado];
-            if (!tareasObj) return [];
-
-            let tareas;
-            if (turnoSeleccionado === 'cierre') {
-                tareas = tareasObj.general;
-            } else {
-                tareas = tareasObj.barra || tareasObj.sala;
-            }
-
-            if (!tareas) return [];
-
-            const allTasks = [];
-            if (tareas.organizacionAntes) allTasks.push(...tareas.organizacionAntes);
-            if (tareas.limpieza) allTasks.push(...tareas.limpieza);
-            if (tareas.organizacionFinal) allTasks.push(...tareas.organizacionFinal);
-            return allTasks;
         }
 
         function marcarComoRevisado() {
@@ -926,7 +920,7 @@
         function submitTasks() {
             const notas = document.getElementById('notasBox').value;
             const completed = Object.keys(tareasCompletadas).length;
-            alert(`✓ TAREAS ENVIADAS\n\n${camareros[usuarioActual].nombre}\nTurno: ${turnoSeleccionado}\nPuesto: ${puestoSeleccionado}\nCompletadas: ${completed}\n${notas ? 'Notas: ' + notas : ''}`);
+            alert(`✓ TAREAS ENVIADAS\n\n${camareros[usuarioActual].nombre}\nTurnos: ${turnosDeHoy.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}\nPuesto: ${puestoSeleccionado}\nCompletadas: ${completed}\n${notas ? 'Notas: ' + notas : ''}`);
         }
 
         function logout() {
@@ -936,8 +930,8 @@
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             usuarioActual = null;
-            turnoSeleccionado = null;
             puestoSeleccionado = null;
+            turnosDeHoy = [];
         }
     </script>
 </body>
