@@ -857,10 +857,29 @@
 
                 const puesto = puestosPorTurno[turno];
                 
+                // CALCULAR POSICIÓN DEL USUARIO EN ESTE TURNO/PUESTO
+                const horarioInfo = HORARIOS[fechaSeleccionada] || {};
+                const personasEnTurno = horarioInfo[turno] || {};
+                const personasEnPuesto = [];
+                
+                for (const persona in personasEnTurno) {
+                    const puestosPersona = personasEnTurno[persona];
+                    if (puestosPersona === puesto || puestosPersona === 'barra_sala') {
+                        personasEnPuesto.push(persona);
+                    }
+                }
+                
+                const posicionUsuario = personasEnPuesto.indexOf(usuarioActual);
+                const totalPersonasEnPuesto = personasEnPuesto.length;
+                
                 const header = document.createElement('div');
                 header.className = 'turno-header';
                 const puestoTexto = puesto === 'barra_sala' ? 'Barra y Sala' : puesto === 'barra' ? 'Barra' : 'Sala';
-                header.textContent = `${turno.charAt(0).toUpperCase() + turno.slice(1)} - ${puestoTexto}`;
+                let headerText = `${turno.charAt(0).toUpperCase() + turno.slice(1)} - ${puestoTexto}`;
+                if (totalPersonasEnPuesto > 1) {
+                    headerText += ` (Persona ${posicionUsuario + 1} de ${totalPersonasEnPuesto})`;
+                }
+                header.textContent = headerText;
                 listDiv.appendChild(header);
 
                 let leyendaAntes = [];
@@ -931,7 +950,17 @@
                     seccion.appendChild(titulo);
 
                     const key = `${turno}_limpieza`;
+                    
+                    // REPARTIR TAREAS ENTRE MÚLTIPLES PERSONAS
                     leyendaLimpieza.forEach((tarea, index) => {
+                        // Si hay múltiples personas, solo mostrar las tareas de este usuario
+                        if (totalPersonasEnPuesto > 1) {
+                            // Mostrar tarea si: index % totalPersonas === posicionUsuario
+                            if (index % totalPersonasEnPuesto !== posicionUsuario) {
+                                return; // No mostrar esta tarea
+                            }
+                        }
+                        
                         const task = document.createElement('div');
                         task.className = 'task-item';
                         const taskKey = `${key}_${index}`;
