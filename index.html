@@ -1039,7 +1039,7 @@
             const horarioInfo = HORARIOS[fechaSeleccionada] || {};
             turnosDeHoy = {};
             
-            // Detectar qué turnos y puestos tiene el usuario
+            // Detectar qué turnos tiene el usuario
             for (const turno in horarioInfo) {
                 if (horarioInfo[turno][usuarioActual]) {
                     turnosDeHoy[turno] = true;
@@ -1068,47 +1068,52 @@
                     
                     turnoDiv.innerHTML = `<h3>${turnoTexto}</h3>`;
                     
-                    // Detectar qué puestos están disponibles para este usuario en este turno
+                    // Detectar TODOS los puestos disponibles en este turno (para todos los usuarios)
                     const horarioTurno = HORARIOS[fechaSeleccionada][turno] || {};
-                    const puestoDisponible = horarioTurno[usuarioActual];
+                    const puestosEnTurno = new Set();
                     
-                    // Crear botones según el puesto disponible
+                    for (const persona in horarioTurno) {
+                        puestosEnTurno.add(horarioTurno[persona]);
+                    }
+                    
+                    // Crear botones según los puestos disponibles
                     const btnGroup = document.createElement('div');
                     btnGroup.className = 'btn-group';
                     
-                    if (puestoDisponible === 'cocina') {
-                        // Solo opción Cocina
+                    // Mostrar opciones según los puestos disponibles
+                    if (puestosEnTurno.has('cocina')) {
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.className = 'btn-option';
-                        btn.style.gridColumn = 'span 3';
                         btn.textContent = '🍳 Cocina';
                         btn.onclick = () => selectTurnoPuesto(turno, 'cocina');
                         btnGroup.appendChild(btn);
-                    } else if (puestoDisponible === 'barra_sala') {
-                        // Opciones: Barra, Sala, Ambos
-                        const btns = [
-                            { text: '🍷 Barra', puesto: 'barra' },
-                            { text: '🪑 Sala', puesto: 'sala' },
-                            { text: '🍷🪑 Ambos', puesto: 'barra_sala' }
-                        ];
-                        btns.forEach(({text, puesto}) => {
-                            const btn = document.createElement('button');
-                            btn.type = 'button';
-                            btn.className = 'btn-option';
-                            btn.textContent = text;
-                            btn.onclick = () => selectTurnoPuesto(turno, puesto);
-                            btnGroup.appendChild(btn);
-                        });
-                    } else if (puestoDisponible === 'barra' || puestoDisponible === 'sala') {
-                        // Solo opción Barra o Sala
-                        const text = puestoDisponible === 'barra' ? '🍷 Barra' : '🪑 Sala';
+                    }
+                    
+                    if (puestosEnTurno.has('barra') || puestosEnTurno.has('barra_sala')) {
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.className = 'btn-option';
-                        btn.style.gridColumn = 'span 3';
-                        btn.textContent = text;
-                        btn.onclick = () => selectTurnoPuesto(turno, puestoDisponible);
+                        btn.textContent = '🍷 Barra';
+                        btn.onclick = () => selectTurnoPuesto(turno, 'barra');
+                        btnGroup.appendChild(btn);
+                    }
+                    
+                    if (puestosEnTurno.has('sala') || puestosEnTurno.has('barra_sala')) {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'btn-option';
+                        btn.textContent = '🪑 Sala';
+                        btn.onclick = () => selectTurnoPuesto(turno, 'sala');
+                        btnGroup.appendChild(btn);
+                    }
+                    
+                    if (puestosEnTurno.has('barra_sala')) {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'btn-option';
+                        btn.textContent = '🍷🪑 Ambos';
+                        btn.onclick = () => selectTurnoPuesto(turno, 'barra_sala');
                         btnGroup.appendChild(btn);
                     }
                     
