@@ -618,8 +618,7 @@
         // HORARIO 22-28 JUNIO 2026
         const HORARIOS = {
             22: { // Lunes
-                cocina: { jose: 'cocina' },
-                desayuno: { andriek: 'barra_sala' },
+                desayuno: { jose: 'cocina', andriek: 'barra_sala' },
                 almuerzo: { andriek: 'barra', carolina: 'sala' }
             },
             23: { // Martes
@@ -1057,7 +1056,7 @@
             const container = document.getElementById('selectorsContainer');
             container.innerHTML = '';
 
-            const turnosOrden = ['cocina', 'desayuno', 'almuerzo', 'merienda', 'cena'];
+            const turnosOrden = ['desayuno', 'almuerzo', 'merienda', 'cena'];
             turnosOrden.forEach(turno => {
                 if (turnosDeHoy[turno]) {
                     const turnoDiv = document.createElement('div');
@@ -1102,7 +1101,7 @@
         }
 
         function checkAllSelected() {
-            const turnosOrden = ['cocina', 'desayuno', 'almuerzo', 'merienda', 'cena'];
+            const turnosOrden = ['desayuno', 'almuerzo', 'merienda', 'cena'];
             let allSelected = true;
             for (const turno of turnosOrden) {
                 if (turnosDeHoy[turno] && !puestosPorTurno[turno]) {
@@ -1149,7 +1148,7 @@
             tareasCompletadas = {};
             tareasDetalles = [];
 
-            const turnosOrden = ['cocina', 'desayuno', 'almuerzo', 'merienda', 'cena'];
+            const turnosOrden = ['desayuno', 'almuerzo', 'merienda', 'cena'];
             turnosOrden.forEach(turno => {
                 if (!turnosDeHoy[turno]) return;
 
@@ -1182,9 +1181,7 @@
 
                 // TAREAS ANTES
                 let leyendaAntes = [];
-                if (turno === 'cocina') {
-                    // No hay leyenda para cocina
-                } else if (turno === 'desayuno') {
+                if (turno === 'desayuno') {
                     leyendaAntes = TAREAS_LEYENDA.desayuno_antes;
                 } else if (turno === 'almuerzo') {
                     if (fechaSeleccionada === 28) {
@@ -1222,10 +1219,12 @@
 
                 // TAREAS DE LIMPIEZA
                 let leyendaLimpieza = [];
-                if (turno === 'cocina') {
-                    leyendaLimpieza = TAREAS_LEYENDA.cocina_desayuno_limpieza;
-                } else if (turno === 'desayuno') {
-                    leyendaLimpieza = TAREAS_LEYENDA.desayuno_limpieza;
+                if (turno === 'desayuno') {
+                    if (puesto === 'cocina') {
+                        leyendaLimpieza = TAREAS_LEYENDA.cocina_desayuno_limpieza;
+                    } else {
+                        leyendaLimpieza = TAREAS_LEYENDA.desayuno_limpieza;
+                    }
                 } else if (turno === 'almuerzo') {
                     if (fechaSeleccionada === 28) {
                         leyendaLimpieza = TAREAS_LEYENDA.almuerzo_domingo_limpieza_sala;
@@ -1375,7 +1374,6 @@
 
             document.querySelectorAll('.task-item.completed').forEach(item => {
                 const titulo = item.querySelector('.task-title').textContent;
-                const taskKey = item.querySelector('.task-checkbox') ? item : null;
                 
                 // Detectar si es profunda o normal
                 if (item.parentElement.classList.contains('profundas-section') || 
@@ -1386,24 +1384,24 @@
                 }
             });
 
-            // Construir email
-            let emailBody = `✓ TAREAS COMPLETADAS - ${info.nombre}\n`;
-            emailBody += `📅 ${fechaFormato}\n`;
-            emailBody += `🕐 Turnos: ${turnosTexto}\n`;
-            emailBody += `📍 Puestos: ${puestosTexto}\n`;
-            emailBody += `⏰ ${new Date().toLocaleTimeString('es-ES')}\n\n`;
+            // Construir email PROFESIONAL sin emoticones
+            let emailBody = `TAREAS COMPLETADAS - ${info.nombre}\n`;
+            emailBody += `\n${fechaFormato}\n`;
+            emailBody += `Turnos: ${turnosTexto}\n`;
+            emailBody += `Puestos: ${puestosTexto}\n`;
+            emailBody += `\n`;
             
             if (tareasRealizadas.length > 0) {
-                emailBody += `🧹 ANTES DE FINALIZAR EL SERVICIO:\n`;
+                emailBody += `ANTES DE FINALIZAR EL SERVICIO:\n`;
                 tareasRealizadas.forEach(t => {
-                    emailBody += `  ✓ ${t}\n`;
+                    emailBody += `- ${t}\n`;
                 });
             }
 
             if (tareasProf.length > 0) {
-                emailBody += `\n⭐ LIMPIEZA PROFUNDA:\n`;
+                emailBody += `\nLIMPIEZA PROFUNDA:\n`;
                 tareasProf.forEach(t => {
-                    emailBody += `  ✓ ${t}\n`;
+                    emailBody += `- ${t}\n`;
                 });
             }
 
@@ -1424,13 +1422,13 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert(`✓ TAREAS ENVIADAS\n\n${info.nombre}\n\nTareas de limpieza: ${tareasRealizadas.length}\nTareas profundas: ${tareasProf.length}\n\nEmail enviado a: josemyale2018@gmail.com`);
+                    alert(`TAREAS ENVIADAS\n\n${info.nombre}\n\nTareas de limpieza: ${tareasRealizadas.length}\nTareas profundas: ${tareasProf.length}\n\nEmail enviado a: josemyale2018@gmail.com`);
                 } else {
-                    alert(`❌ Error: ${data.message}`);
+                    alert(`Error: ${data.message}`);
                 }
             })
             .catch(error => {
-                alert(`❌ Error al enviar: ${error}`);
+                alert(`Error al enviar: ${error}`);
             });
         }
 
@@ -1495,13 +1493,12 @@
             const fecha = new Date(2026, 5, fechaSeleccionada);
             const fechaFormato = fecha.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
-            const emailBody = `🚨 INCIDENCIA REGISTRADA\n\n`;
+            const emailBody = `INCIDENCIA REGISTRADA\n\n`;
             emailBody += `Supervisor: ${supervisor}\n`;
             emailBody += `Camarero: ${camarero}\n`;
             emailBody += `Turno: ${turno.charAt(0).toUpperCase() + turno.slice(1)}\n`;
-            emailBody += `Fecha: ${fechaFormato}\n`;
-            emailBody += `Hora: ${new Date().toLocaleTimeString('es-ES')}\n\n`;
-            emailBody += `Descripción:\n${descripcion}`;
+            emailBody += `Fecha: ${fechaFormato}\n\n`;
+            emailBody += `Descripcion:\n${descripcion}`;
 
             const datos = {
                 accion: "registrarIncidencia",
@@ -1519,16 +1516,16 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert(`✓ INCIDENCIA REGISTRADA\n\nCamarero: ${camarero}\nTurno: ${turno}\nDescripción: ${descripcion}\n\nEmail enviado a: josemyale2018@gmail.com`);
+                    alert(`INCIDENCIA REGISTRADA\n\nCamarero: ${camarero}\nTurno: ${turno}\nDescripcion: ${descripcion}\n\nEmail enviado a: josemyale2018@gmail.com`);
                     document.getElementById('incidenciaDesc').value = '';
                     document.getElementById('incidenciaCamarero').value = '';
                     document.getElementById('incidenciaTurno').value = '';
                 } else {
-                    alert(`❌ Error: ${data.message}`);
+                    alert(`Error: ${data.message}`);
                 }
             })
             .catch(error => {
-                alert(`❌ Error al registrar: ${error}`);
+                alert(`Error al registrar: ${error}`);
             });
         }
 
