@@ -122,7 +122,7 @@
             <div class="fecha-subtitle">Visualiza los turnos y tareas de cualquier día</div>
             <div class="fecha-input-group">
                 <label>Fecha a revisar:</label>
-                <input type="date" id="fechaInput" min="2026-06-22" max="2026-06-28">
+                <input type="date" id="fechaInput" min="2026-06-29" max="2026-07-05">
             </div>
             <div class="fecha-info" id="fechaInfo"></div>
             <div style="display: flex; gap: 10px;">
@@ -223,7 +223,7 @@
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAM5H5hvqqsQVvGmjdQVT8JgI3QD8YmCAyovZzDYTAXwO5aSf5IsCOhnk4-Pqpjqpj4A/exec";
         const credenciales = { andriek: "barra.2026", jose: "sala.1914", bruno: "sala01", carolina: "sala02", cristian: "sala03" };
         const camareros = { andriek: { nombre: 'Andriek', isSupervisor: true }, jose: { nombre: 'José Miguel', isSupervisor: true }, bruno: { nombre: 'Bruno', isSupervisor: false }, carolina: { nombre: 'Carolina', isSupervisor: false }, cristian: { nombre: 'Cristian', isSupervisor: false } };
-        const HORARIOS = { 22: { desayuno: { jose: 'cocina', andriek: 'barra_sala' }, almuerzo: { andriek: 'barra', carolina: 'sala' } }, 23: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', cristian: 'sala' } }, 24: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', carolina: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { andriek: 'barra_sala' } }, 25: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', cristian: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { andriek: 'barra_sala' } }, 26: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', cristian: 'sala', carolina: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { andriek: 'barra_sala' } }, 27: { almuerzo: { andriek: 'barra', jose: 'sala', cristian: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { jose: 'barra_sala' } }, 28: { almuerzo: { andriek: 'barra', carolina: 'sala' } } };
+        const HORARIOS = { 29: { desayuno: { jose: 'cocina', andriek: 'barra_sala' }, almuerzo: { andriek: 'barra', jose: 'sala' } }, 30: { desayuno: { andriek: 'barra_sala' }, almuerzo: { andriek: 'barra', cristian: 'sala' } }, 1: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', carolina: 'sala' } }, 2: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', cristian: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { andriek: 'barra_sala' } }, 3: { desayuno: { jose: 'barra_sala' }, almuerzo: { jose: 'barra', carolina: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { andriek: 'barra_sala' } }, 4: { almuerzo: { andriek: 'barra', jose: 'sala', carolina: 'sala' }, merienda: { andriek: 'barra_sala' }, cena: { jose: 'barra_sala' } }, 5: { almuerzo: { andriek: 'barra', cristian: 'sala' } } };
 
         const HORARIOS_TIEMPO = { desayuno: { inicio: '08:30', fin: '12:00' }, almuerzo: { inicio: '12:30', fin: '16:00' }, merienda: { inicio: '16:00', fin: '20:00' }, cena: { inicio: '20:00', fin: '23:45' } };
 
